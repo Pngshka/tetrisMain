@@ -4,6 +4,7 @@ import {useEffect, useRef, useState} from "react";
 import useStateReducer from "../../../react/hooks/useStateReducer";
 import {ignoreNextStates} from "../../constants/states";
 import {getNextState, onLoadingProgress, onReady, requestState, useScene} from "../redux/reducer/scene";
+import ThreeController from "../../controller/ThreeController";
 
 export default function Scene() {
   const wrapperRef = useRef();
@@ -12,13 +13,14 @@ export default function Scene() {
   const {state} = useScene();
 
   useEffect(() => {
-    importControllerJS().then(({default: Controller}) => {
-      const scene = Controller.instance;
+    importControllerJS().then(({default: ThreeController}) => {
+      const scene = ThreeController.instance;
 
       scene.eventBus.addEventListener("scene-controller:loading-progress",
         ({data: {progress}}) =>
           dispatch(onLoadingProgress(progress))
       );
+      console.log(scene);
 
       setScene(scene);
       dispatch(onReady());

@@ -46,6 +46,9 @@ export default class SceneController {
   }
 
   onLoad() {
+    this.eventBus.dispatchEvent({
+      type: "scene-controller:loaded"
+    })
   }
 
   loadManifestSelect() {

@@ -11,9 +11,23 @@ export default class BaseWrapper {
 
   storage = new CustomData();
 
+  readyPromise;
+
+  readyResolver;
+
+  loadingPromise;
+
+  loadingResolver;
+
+
   constructor() {
 
+    this.onLoad = this.onLoad.bind(this);
+
     this.readyPromise = new Promise(resolve => this.readyResolver = resolve);
+    this.loadingPromise = new Promise(resolve => this.loadingResolver = resolve);
+
+    this.eventBus.addEventListener("scene-controller:loaded", this.onLoad);
   }
 
   init() {
@@ -27,6 +41,9 @@ export default class BaseWrapper {
     this.controller.init();
   }
 
+  onLoad() {
+    this.loadingResolver();
+  }
 
   appendContainer(container) {
     this.controller.appendContainer?.(container);
