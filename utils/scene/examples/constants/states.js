@@ -1,4 +1,5 @@
 export const states = {
+  loadManifest: {availableStates: ["loading"], nextState: "loading"},
   loading: {availableStates: ["loadComplete"]},
   loadComplete: {availableStates: ["initialization"]},
   initialization: {availableStates: ["initializationComplete"], nextState: "initializationComplete"},
@@ -12,6 +13,6 @@ export const states = {
 };
 
 
-export const ignoreNextStates =[
-  "loading"
+export const ignoreNextStates = [
+  "playing"
 ]

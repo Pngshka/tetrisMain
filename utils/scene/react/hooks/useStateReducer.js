@@ -3,8 +3,12 @@ import {useEffect} from "react";
 export default function useStateReducer(reducers = {}, ignoreNextStates = [], nextState, state, controller) {
   useEffect(() => {
     if (!controller) return;
-    const controllerPromise = controller.eventBus.dispatchEvent({type: "apply-state", data: {state}})
+    const eventData = {state, promise: null};
+    controller.eventBus.dispatchEvent({type: "apply-state", data: eventData})
+    const {promise: controllerPromise} = eventData;
     let ignorePromise = ignoreNextStates.indexOf(state) !== -1;
+
+    console.log(state, controllerPromise);
 
     if (typeof reducers[state] === "function")
       reducers[state](controllerPromise)

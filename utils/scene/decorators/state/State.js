@@ -37,8 +37,9 @@ export default class State extends BaseDecorator {
     this.requestState(state);
   }
 
-  onApplyState({data: {state}}) {
-    this.changeState(state);
+  onApplyState({data}) {
+    this.changeState(data.state);
+    data.promise = this.statePromise;
   }
 
   update() {

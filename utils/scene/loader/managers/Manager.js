@@ -78,11 +78,13 @@ export default class LoadingManager {
 
       if (typeof this.onLoad === "function")
         this.onLoad(this.getStatusData());
+
+      this._loadResolve();
     }
   }
 
   resolveURL(url) {
-    return `${url.indexOf(global.ASSETS_PREFIX) !== 0 ? global.ASSETS_PREFIX : ""}${url}`;
+    return `${url.indexOf(global.ASSETS_PREFIX) !== 0 && global.ASSETS_PREFIX ? global.ASSETS_PREFIX : ""}${url}`;
   }
 
   itemError(data) {

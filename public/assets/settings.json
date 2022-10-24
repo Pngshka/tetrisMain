@@ -1,1 +1,1 @@
-{"controls":{},"assetsSettings":{"assetsUrl":"/assets","materialPrefix":"mat","texturePrefix":"tex","replaceMaterials":[]},"createBefore":{},"preload":[],"sceneOverrides":{},"mainSceneSettings":{}}
+{"controls":{},"assetsSettings":{"assetsUrl":"/assets","materialPrefix":"mat","texturePrefix":"tex","replaceMaterials":[]},"createBefore":{},"preload":[{"subtype":"threejs","type":"texture","name":"empty","path":"assets/texture/","fileName":"empty.jpg"}],"sceneOverrides":{},"mainSceneSettings":{}}

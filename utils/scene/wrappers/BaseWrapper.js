@@ -11,10 +11,20 @@ export default class BaseWrapper {
 
   storage = new CustomData();
 
+  constructor() {
+
+    this.readyPromise = new Promise(resolve => this.readyResolver = resolve);
+  }
+
   init() {
     this.controller = this.initController();
 
     this.decorators.forEach((Decorator) => new Decorator(this));
+    this.readyResolver({
+      events: this.eventBus
+    });
+
+    this.controller.init();
   }
 
 

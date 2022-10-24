@@ -4,12 +4,16 @@ import {states} from "../../../constants/states";
 const builder = new Builder({
   name: "scene",
   initialState: {
-    state: "loading",
+    state: "loadManifest",
+    loadingProgress: 0,
     previousStates: []
   },
   reducers: {
     onReady(state) {
       state.ready = true;
+    },
+    onLoadingProgress(state, {payload: progress}) {
+      this.loadingProgress = progress;
     },
     requestPreviousState(state) {
       if (state.previousStates.length)
@@ -30,7 +34,7 @@ builder.create();
 const scene = builder.export();
 export default scene;
 
-export const {requestState, onReady} = scene.actions;
+export const {requestState, onReady, onLoadingProgress} = scene.actions;
 export const {useScene} = scene.selectors;
 
 export function getNextState(currentState) {

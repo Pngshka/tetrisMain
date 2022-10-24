@@ -15,12 +15,18 @@ export default class SceneController {
 
   constructor({storage, eventBus} = {}) {
 
+    this.update = this.update.bind(this);
     this.onLoad = this.onLoad.bind(this);
     this.onManifestLoaded = this.onManifestLoaded.bind(this);
-    this.update = this.update.bind(this);
+    this.onLoadingProgress = this.onLoadingProgress.bind(this);
+    this.onLoadingManifestProgress = this.onLoadingManifestProgress.bind(this);
 
     this.storage = storage;
     this.eventBus = eventBus;
+  }
+
+  init() {
+
   }
 
   appendContainer(container) {
@@ -31,8 +37,12 @@ export default class SceneController {
   update() {
   }
 
-  loadSelect() {
-    return Loader.load(this.storage.preload, {onLoad: this.onLoad})
+  loadingSelect() {
+    console.log(this.storage.preload)
+    return Loader.load(this.storage.preload, {
+      onLoad: this.onLoad,
+      onProgress: this.onLoadingProgress
+    })
   }
 
   onLoad() {
@@ -44,7 +54,28 @@ export default class SceneController {
       type: "json",
       name: "settings",
       url: this.storage.manifestLink
-    }], {onLoad: this.onManifestLoaded})
+    }], {
+      onLoad: this.onManifestLoaded,
+      onProgress: this.onLoadingManifestProgress
+    })
+  }
+
+  onLoadingProgress({itemsLoaded, itemsTotal}) {
+    this.eventBus.dispatchEvent({
+      type: "scene-controller:loading-progress", data: {
+        progress: itemsLoaded / itemsTotal,
+        itemsLoaded, itemsTotal
+      }
+    })
+  }
+
+  onLoadingManifestProgress({itemsLoaded, itemsTotal}) {
+    this.eventBus.dispatchEvent({
+      type: "scene-controller:loading-manifest-progress", data: {
+        progress: itemsLoaded / itemsTotal,
+        itemsLoaded, itemsTotal
+      }
+    })
   }
 
   onManifestLoaded() {

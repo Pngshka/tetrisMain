@@ -12,7 +12,7 @@ export default class BabylonController extends SceneController {
     super(data);
   }
 
-  loadSelect() {
+  loadingSelect() {
     return Loader.load(this.storage.preload, {
       onLoad: this.onLoad, externalData: {
         scene: this.scene

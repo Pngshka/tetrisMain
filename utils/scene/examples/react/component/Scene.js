@@ -3,7 +3,7 @@ import {importControllerJS} from "../../../utils/helpers/import";
 import {useEffect, useRef, useState} from "react";
 import useStateReducer from "../../../react/hooks/useStateReducer";
 import {ignoreNextStates} from "../../constants/states";
-import {getNextState, onReady, requestState, useScene} from "../redux/reducer/scene";
+import {getNextState, onLoadingProgress, onReady, requestState, useScene} from "../redux/reducer/scene";
 
 export default function Scene() {
   const wrapperRef = useRef();
@@ -14,6 +14,11 @@ export default function Scene() {
   useEffect(() => {
     importControllerJS().then(({default: Controller}) => {
       const scene = Controller.instance;
+
+      scene.eventBus.addEventListener("scene-controller:loading-progress",
+        ({data: {progress}}) =>
+          dispatch(onLoadingProgress(progress))
+      );
 
       setScene(scene);
       dispatch(onReady());

@@ -39,7 +39,7 @@ export default class ThreeController extends SceneController {
     this.onResize = this.onResize.bind(this);
   }
 
-  loadSelect() {
+  loadingSelect() {
     if (this.storage.createBefore)
       ThreeParser.createObjectsFromParams(this.storage.createBefore, {
         scene: this.scene
@@ -58,7 +58,7 @@ export default class ThreeController extends SceneController {
   onLoad() {
   }
 
-  init(isDispatch = true) {
+  init() {
     if (this.debug)
       this.initStats();
 
