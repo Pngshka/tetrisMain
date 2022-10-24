@@ -38,7 +38,6 @@ export default class SceneController {
   }
 
   loadingSelect() {
-    console.log(this.storage.preload)
     return Loader.load(this.storage.preload, {
       onLoad: this.onLoad,
       onProgress: this.onLoadingProgress
