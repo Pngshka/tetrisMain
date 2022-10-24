@@ -1,4 +1,3 @@
-import {useDispatch} from "react-redux";
 import {useEffect} from "react";
 import {setImportPromise} from "../../../utils/helpers/import";
 import Scene from "./Scene";

@@ -19,7 +19,6 @@ export default function Scene() {
         ({data: {progress}}) =>
           dispatch(onLoadingProgress(progress))
       );
-      console.log(scene);
 
       setScene(scene);
       dispatch(onReady());
