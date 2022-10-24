@@ -64,7 +64,7 @@ export default class ThreeController extends SceneController {
       this.appendContainer(this.container);
   }
 
-  create() {
+  initializationSelect() {
 
     this.initItems();
 
@@ -79,6 +79,10 @@ export default class ThreeController extends SceneController {
         });
 
     requestAnimationFrame(this.update);
+  }
+
+  initItems() {
+
   }
 
   initDebug() {
