@@ -6,13 +6,10 @@ import SceneController from "./SceneController";
 import Loader from "../loader/Loader";
 import {threeManager} from "../loader/plugins/threejs/ThreeManager";
 import ThreeParser from "../loader/plugins/postprocessing/ThreeParser";
-import FPSMeter, {fpsMeter} from "../utils/fps-meter/fps-meter";
 
 Loader.registerManager(threeManager, "threejs");
 
 export default class ThreeController extends SceneController {
-
-  debug = getIsDebug();
 
   clock = new THREE.Clock();
 
@@ -35,7 +32,7 @@ export default class ThreeController extends SceneController {
     this.sceneSettings = data.scene;
     this.rendererSettings = data.renderer;
 
-    this.onDecreaseStepChange = this.onDecreaseStepChange.bind(this);
+
     this.onResize = this.onResize.bind(this);
   }
 
@@ -52,10 +49,10 @@ export default class ThreeController extends SceneController {
     })
   }
 
-  onDecreaseStepChange(step) {
-  }
 
   init() {
+    super.init();
+
     if (this.debug)
       this.initStats();
 
@@ -81,8 +78,6 @@ export default class ThreeController extends SceneController {
           scene: this.scene
         });
 
-    FPSMeter.listen(this.onDecreaseStepChange);
-    fpsMeter.start();
     requestAnimationFrame(this.update);
   }
 

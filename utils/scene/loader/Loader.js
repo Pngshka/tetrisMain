@@ -18,6 +18,8 @@ export default class Loader {
 
       let loader = manager.getLoader(Loader);
 
+      if (!Loader) return;
+
       if (!loader) {
         loader = new Loader(manager, externalData);
         manager.addLoader(Loader, loader);

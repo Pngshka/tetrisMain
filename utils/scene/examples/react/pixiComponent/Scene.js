@@ -12,14 +12,13 @@ export default function Scene() {
   const {state} = useScene();
 
   useEffect(() => {
-    importControllerJS().then(({default: ThreeController}) => {
-      const scene = ThreeController.instance;
+    importControllerJS().then(({default: PixiController}) => {
+      const scene = PixiController.instance;
 
       scene.eventBus.addEventListener("scene-controller:loading-progress",
         ({data: {progress}}) =>
           dispatch(onLoadingProgress(progress))
       );
-      console.log(scene);
 
       setScene(scene);
       dispatch(onReady());

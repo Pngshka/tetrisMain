@@ -1,5 +1,7 @@
 import Loader from "../loader/Loader";
 import AssetsManager from "../loader/plugins/AssetsManager";
+import {getIsDebug} from "../debug/getIsDebug";
+import FPSMeter, {fpsMeter} from "../utils/fps-meter/fps-meter";
 
 export default class SceneController {
 
@@ -13,12 +15,15 @@ export default class SceneController {
 
   state;
 
+  debug = getIsDebug();
+
   constructor({storage, eventBus} = {}) {
 
     this.update = this.update.bind(this);
     this.onLoad = this.onLoad.bind(this);
     this.onManifestLoaded = this.onManifestLoaded.bind(this);
     this.onLoadingProgress = this.onLoadingProgress.bind(this);
+    this.onDecreaseStepChange = this.onDecreaseStepChange.bind(this);
     this.onLoadingManifestProgress = this.onLoadingManifestProgress.bind(this);
 
     this.storage = storage;
@@ -26,7 +31,15 @@ export default class SceneController {
   }
 
   init() {
+    this.initFPSMeter();
+  }
 
+  initFPSMeter(){
+    FPSMeter.listen(this.onDecreaseStepChange);
+    fpsMeter.start();
+  }
+
+  onDecreaseStepChange(step) {
   }
 
   appendContainer(container) {
