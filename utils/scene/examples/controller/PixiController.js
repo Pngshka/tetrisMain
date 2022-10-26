@@ -1,4 +1,4 @@
-import PixiWrapper from "../../wrappers/pixi/ThreeWrapper";
+import PixiWrapper from "../../wrappers/pixi/PixiWrapper";
 import Data from "../data/Data";
 
 export default class PixiController extends PixiWrapper {
