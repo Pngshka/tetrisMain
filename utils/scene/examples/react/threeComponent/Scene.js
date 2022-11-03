@@ -15,6 +15,11 @@ export default function Scene() {
     importControllerJS().then(({default: ThreeController}) => {
       const scene = ThreeController.instance;
 
+      scene.eventBus.addEventListener("state-adapter:request",
+        ({data: {state}}) =>
+          dispatch(requestState(state))
+      );
+
       scene.eventBus.addEventListener("scene-controller:loading-progress",
         ({data: {progress}}) =>
           dispatch(onLoadingProgress(progress))
