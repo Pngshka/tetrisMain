@@ -15,6 +15,11 @@ export default function Scene() {
     importControllerJS().then(({default: PixiController}) => {
       const scene = PixiController.instance;
 
+      scene.eventBus.addEventListener("state-adapter:request",
+        ({data: {state}}) =>
+          dispatch(requestState(getNextState(state)))
+      );
+
       scene.eventBus.addEventListener("scene-controller:loading-progress",
         ({data: {progress}}) =>
           dispatch(onLoadingProgress(progress))
