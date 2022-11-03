@@ -17,7 +17,7 @@ export default function Scene() {
 
       scene.eventBus.addEventListener("state-adapter:request",
         ({data: {state}}) =>
-          dispatch(requestState(getNextState(state)))
+          dispatch(requestState(state))
       );
 
       scene.eventBus.addEventListener("scene-controller:loading-progress",
