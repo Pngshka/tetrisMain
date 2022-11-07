@@ -1,7 +1,7 @@
 import State from "../../decorators/state/State";
 import BabylonResize from "../../decorators/resize/BabylonResize";
 import BaseWrapper from "../BaseWrapper";
-import ThreeController from "../../containers/ThreeController";
+import BabylonController from "../../containers/BabylonController";
 
 export default class BabylonWrapper extends BaseWrapper {
 
@@ -10,6 +10,6 @@ export default class BabylonWrapper extends BaseWrapper {
   initController() {
     const {eventBus, storage} = this;
 
-    return new ThreeController({eventBus, storage});
+    return new BabylonController({eventBus, storage});
   }
 }
