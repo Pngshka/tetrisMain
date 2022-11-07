@@ -10,7 +10,7 @@ export default class LoadingManager {
 
   promise;
 
-  _loadingList = [];
+  _loadingList = {};
 
   _loadedList = [];
 
@@ -33,16 +33,21 @@ export default class LoadingManager {
       this._loaders[Cls.name] = loader
   }
 
+  getHandler() {
+    return null;
+  }
+
   getLoader(Cls) {
     return Cls?.name ? this._loaders[Cls.name] : null;
   }
 
-  itemStart(url) {
+  itemStart(url, signature) {
     url = this.resolveURL(url);
 
+
     if (url) {
-      if (this._loadingList.includes(url)) return;
-      this._loadingList.push(url);
+      if (this._loadingList[url]) return;
+      this._loadingList[url] = signature === "custom-loader";
       this.itemsTotal++;
     }
 
@@ -56,6 +61,9 @@ export default class LoadingManager {
 
   itemEnd(settings, resource, loader) {
 
+    if (typeof settings === "string" && !this._loadingList[settings])
+      this.itemsLoaded++;
+
     if (!resource) return;
 
     this.itemsLoaded++;
@@ -67,6 +75,7 @@ export default class LoadingManager {
 
     if (this.itemsLoaded === this.itemsTotal) {
 
+
       this._loadedList.forEach(data => {
         postprocessingList.forEach(postprocessing => {
           if (postprocessing.check(data))
@@ -77,7 +86,8 @@ export default class LoadingManager {
       this.isLoading = false;
 
       if (typeof this.onLoad === "function")
-        this.onLoad(this.getStatusData());
+        this.onLoad({data: this.getStatusData(), settings, resource});
+
 
       this._loadResolve();
     }

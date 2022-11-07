@@ -6,7 +6,11 @@ export default class TextureLoader extends BaseLoader {
 
   load(settings) {
     const {path, fileName} = settings;
-    new THREE.TextureLoader(this.manager).load(`${path}${fileName}`, (texture) => {
+    const url = this.manager.resolveURL(`${path}${fileName}`);
+
+    super.load(url);
+
+    new THREE.TextureLoader(this.manager).load(url, (texture) => {
       this.onLoad(settings, texture);
     })
   }

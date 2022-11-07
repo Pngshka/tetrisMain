@@ -11,7 +11,7 @@ export default class BaseLoader {
 
 
   load(url) {
-    this.manager.itemStart(url);
+    this.manager.itemStart(url, "custom-loader");
   }
 
   onLoad(settings, resource) {
