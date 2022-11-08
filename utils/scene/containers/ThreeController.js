@@ -149,6 +149,7 @@ export default class ThreeController extends SceneController {
     const renderer = this.renderer = new THREE.WebGLRenderer(options);
     renderer.setClearColor(backgroundColor);
     renderer.setPixelRatio(devicePixelRatio);
+    renderer.outputEncoding = THREE.sRGBEncoding;
 
     if (shadow) {
       renderer.shadowMap.enabled = true;
