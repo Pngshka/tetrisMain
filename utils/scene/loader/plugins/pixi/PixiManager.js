@@ -1,5 +1,6 @@
 import {LoadersManager} from "../LoadersManager";
 import TextureLoader from "./TextureLoader";
+import SceneLoader from "./SceneLoader";
 
 export class PixiManager extends LoadersManager {
 
@@ -7,6 +8,8 @@ export class PixiManager extends LoadersManager {
     switch (assetData.type) {
       case "texture":
         return TextureLoader;
+      case "scene":
+        return SceneLoader;
     }
   }
 }
