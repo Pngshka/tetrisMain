@@ -1,17 +1,18 @@
 import BaseLoader from "../BaseLoader";
 
 
-
 export default class GLTFLoader extends BaseLoader {
 
   static name = "BabylonGLTFLoader"
 
   load(settings) {
     const {path, fileName} = settings;
-    super.load();
+    const url = this.manager.resolveURL(path);
 
-    BABYLON.SceneLoader.Append(this.manager.resolveURL(path), fileName, this.data.scene,
-      scene => this.onLoad(settings, scene),
+    super.load(url);
+
+    BABYLON.SceneLoader.ImportMesh("", url, fileName, undefined,
+      scene =>  this.onLoad(settings, scene),
     );
 
   }
