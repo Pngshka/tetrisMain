@@ -24,7 +24,7 @@ export default class State extends BaseDecorator {
 
 
     this.define(wrapper, "statePromise", () => this.statePromise);
-    this.define(controller, "state", () => this.state);
+    this.define(controller, "state", () => this._state);
 
     eventBus.addEventListener("request-state", this.onRequestState);
     eventBus.addEventListener("apply-state", this.onApplyState);
