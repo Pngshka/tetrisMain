@@ -25,7 +25,7 @@ export default class Action {
     if (this.enabled === enabled) return;
     this._enabled = enabled;
 
-    this.trigger("enabled-change", {enabled: this.enabled});
+    this.trigger("enabled-change", { enabled: this.enabled });
   }
 
   get enabled() {
@@ -36,7 +36,7 @@ export default class Action {
     if (this.active === active) return;
     this._active = active;
 
-    this.trigger("active-change", {active: this.active});
+    this.trigger("active-change", { active: this.active });
   }
 
   get active() {
@@ -45,6 +45,7 @@ export default class Action {
 
   trigger(action, data) {
     if (!this.eventBus) return;
-    this.eventBus.emit(`action:${action}`, {action, actionElement: this, ...data});
+    const event = { type: `action:${ action }`, action: this, data };
+    this.eventBus.dispatchEvent(event);
   }
 }
