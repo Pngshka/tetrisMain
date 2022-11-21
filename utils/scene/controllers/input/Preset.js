@@ -15,21 +15,22 @@ export default class Preset {
 
     this._actions = data.actions.map(this.initAction);
 
-    eventBus.on("action:active-change", this.onActiveChange);
+    eventBus.addEventListener("action:active-change", this.onActiveChange);
   }
 
   getActionByName(name) {
     return this._actionCache[name] ||
-      (this._actionCache[name] = this._actions.find(({name: actionName}) => name === actionName));
+      (this._actionCache[name] = this._actions.find(({ name: actionName }) => name === actionName));
   }
 
-  onActiveChange = ({active, actionElement: {counterActions}}) => {
-    if (active)
+  onActiveChange = ({ data: { active }, action: { counterActions } }) => {
+    if (active) {
       counterActions.forEach(actionName => {
-        const counterAction = this.actions.find(({name}) => name === actionName);
+        const counterAction = this.actions.find(({ name }) => name === actionName);
         if (counterAction)
-          counterAction.active = false
+          counterAction.active = false;
       });
+    }
   };
 
   get actions() {
@@ -37,7 +38,7 @@ export default class Preset {
   }
 
   initAction = (actionData) => {
-    const {eventBus} = this;
+    const { eventBus } = this;
     const action = new Action(actionData, eventBus);
     action.presetName = this.name;
     return action;
