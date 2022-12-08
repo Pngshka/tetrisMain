@@ -9,11 +9,16 @@ export default class GLTFLoader extends BaseLoader {
     const {path, fileName} = settings;
     const url = this.manager.resolveURL(path);
 
-    super.load(url);
+    super.load(`${url}${fileName}`);
 
-    BABYLON.SceneLoader.ImportMesh("", url, fileName, undefined,
-      scene =>  this.onLoad(settings, scene),
-    );
+    this.loadMesh(url, fileName).then(scene => this.onLoad(settings, scene));
+  }
 
+  loadMesh(url, fileName) {
+    return new Promise(resolve =>
+      BABYLON.SceneLoader.ImportMesh("", url, fileName, undefined,
+        resolve,
+      )
+    )
   }
 }

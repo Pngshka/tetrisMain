@@ -21,20 +21,27 @@ export default class GLTFLoader extends BaseLoader {
     const {path} = settings;
 
     return () => {
-      const texturesPromises = parser.json.textures.map((textureDef, index) => {
-        const sourceIndex = textureDef.source;
-        const sourceDef = parser.json.images[sourceIndex];
-        const cacheKey = (sourceDef.uri || sourceDef.bufferView) + ':' + textureDef.sampler;
+      const texturesPromises = parser.json.textures
+        .filter(textureDef => {
+          const sourceIndex = textureDef.source;
+          const sourceDef = parser.json.images[sourceIndex];
 
-        const promise = this.loadTexture(`${path}${sourceDef.uri}`).then(texture => {
-          parser.textureCache[cacheKey] = texture;
-          return texture;
+          return !!sourceDef.uri
+        })
+        .map((textureDef, index) => {
+          const sourceIndex = textureDef.source;
+          const sourceDef = parser.json.images[sourceIndex];
+          const cacheKey = (sourceDef.uri || sourceDef.bufferView) + ':' + textureDef.sampler;
+
+          const promise = this.loadTexture(`${path}${sourceDef.uri}`).then(texture => {
+            parser.textureCache[cacheKey] = texture;
+            return texture;
+          });
+
+          parser.cache.add(`texture:${index}`, promise)
+
+          return promise;
         });
-
-        parser.cache.add(`texture:${index}`, promise)
-
-        return promise;
-      });
 
       return Promise.all([baseCallBack?.call(parser), ...texturesPromises]);
     }
@@ -61,6 +68,7 @@ export default class GLTFLoader extends BaseLoader {
     loader.pluginCallbacks.push(this.checkParser.bind(this, settings));
 
     loader.load(url, (data) => {
+      data.scene.animations = data.animations;
       this.onLoad(settings, data.scene)
     })
   }

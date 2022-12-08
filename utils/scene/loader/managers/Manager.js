@@ -44,10 +44,9 @@ export default class LoadingManager {
   itemStart(url, signature) {
     url = this.resolveURL(url);
 
-
-    if (url) {
+    if (signature === "custom-loader") {
       if (this._loadingList[url]) return;
-      this._loadingList[url] = signature === "custom-loader";
+      this._loadingList[url] = true;
       this.itemsTotal++;
     }
 
@@ -61,9 +60,6 @@ export default class LoadingManager {
 
   itemEnd(settings, resource, loader) {
 
-    if (typeof settings === "string" && !this._loadingList[settings])
-      this.itemsLoaded++;
-
     if (!resource) return;
 
     this.itemsLoaded++;
@@ -74,8 +70,6 @@ export default class LoadingManager {
       this.onProgress({itemsLoaded: this.itemsLoaded, itemsTotal: this.itemsTotal});
 
     if (this.itemsLoaded === this.itemsTotal) {
-
-
       this._loadedList.forEach(data => {
         postprocessingList.forEach(postprocessing => {
           if (postprocessing.check(data))
@@ -94,7 +88,8 @@ export default class LoadingManager {
   }
 
   resolveURL(url) {
-    return `${url.indexOf(global.ASSETS_PREFIX) !== 0 && global.ASSETS_PREFIX ? global.ASSETS_PREFIX : ""}${url}`;
+    const isAddPrefix = url.indexOf(global.ASSETS_PREFIX) !== 0 && global.ASSETS_PREFIX && !url.includes("blob");
+    return `${isAddPrefix ? global.ASSETS_PREFIX : ""}${url}`;
   }
 
   itemError(data) {
