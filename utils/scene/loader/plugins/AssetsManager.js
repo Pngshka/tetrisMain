@@ -37,8 +37,8 @@ export default class AssetsManager {
     let result;
     Object.values(this.lib).forEach(typeData => {
       if (result) return;
-      if (typeData[id])
-        result = typeData[id].item;
+      if (typeData.assets[id])
+        result = typeData.assets[id].item;
     });
 
     if (!result) getLogger("warn")("getAssetFromLib: there's no such LibAsset:", id);
