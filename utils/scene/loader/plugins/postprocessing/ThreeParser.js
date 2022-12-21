@@ -145,8 +145,9 @@ export default class ThreeParser {
 
   static replaceMaterialsInObject(object, originalMatName, newMatClass) {
     object.traverse(item => {
-      const {type, material} = item;
-      if (type !== 'Mesh') return;
+      const {material} = item;
+
+      if (!(item instanceof THREE.Mesh)) return;
 
       if (material?.length)
         material.forEach((mat, i) => {
@@ -266,7 +267,7 @@ export default class ThreeParser {
   static getObjectsByMaterial(object, material) {
     const result = [];
     object.traverse((item) => {
-      if (item.type === 'Mesh') {
+      if (item instanceof THREE.Mesh) {
         ThreeParser.checkMaterials(item, itemMaterial => {
           if (itemMaterial && itemMaterial.name === material.name && !itemMaterial.modified) result.push(item);
           return itemMaterial;
@@ -300,7 +301,7 @@ export default class ThreeParser {
         newValue = AssetsManager.getGlobalAsset(newValue.substring(1));
       }
 
-      newValue = checkOverrideParam(paramName, newValue, params.scene, AssetsManager.getLib());
+      newValue = checkOverrideParam(paramName, newValue, params.scene, AssetsManager);
 
       const _completeParam = (errorId = 0) => {
         newValue = DONT_APPLY_PROPERIES;
@@ -403,7 +404,6 @@ export default class ThreeParser {
       }
 
       if (!doneHere) {
-
         switch (paramName) {
 
           case "replaceObject":
@@ -429,6 +429,9 @@ export default class ThreeParser {
               if (newValue) newValue.add(context);
               _completeParam();
             }
+            break;
+          case "baseColor":
+            newValue = new THREE.Color(newValue);
             break;
           case "color":
             newValue = new THREE.Color(newValue);
@@ -456,7 +459,7 @@ export default class ThreeParser {
         _objName = _objName.trim();
 
         if (_objName.charAt(0) === '&') {
-          _objName = _objName.substring(1).split('.');
+          _objName = _objName.substring(1).split(';');
           const _objLibName = _objName.shift();
           _objName = _objName[1];
 

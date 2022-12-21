@@ -49,7 +49,8 @@ export default class AssetsManager {
   static addAssetToLib(item, id, type = "base") {
     if (!this.lib[type]) this.lib[type] = {type, assets: {}};
 
-    if (this.lib?.[type]?.assets[id]) getLogger("warn")("Lib Asset exists", id, type);
+    if (this.lib?.[type]?.assets[id])
+      getLogger("warn")("Lib Asset exists", id, type);
     this.lib[type].assets[id] = {
       item
     };
