@@ -1,6 +1,6 @@
+
 import AssetsManager from "../../loader/plugins/AssetsManager";
 import {fragment} from "../particles/effect/AlphaParticles";
-import gsap from "gsap";
 
 BABYLON.Effect.ShadersStore["alphaParticlesFragmentShader"] = fragment;
 

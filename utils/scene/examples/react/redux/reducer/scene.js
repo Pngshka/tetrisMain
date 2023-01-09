@@ -13,7 +13,7 @@ const builder = new Builder({
       state.ready = true;
     },
     onLoadingProgress(state, {payload: progress}) {
-      this.loadingProgress = progress;
+      state.loadingProgress = progress;
     },
     requestPreviousState(state) {
       if (state.previousStates.length)

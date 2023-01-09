@@ -7,7 +7,7 @@ const through = require("through2").obj;
 module.exports = (params) => {
 
   return () => {
-    return gulp.src(["data/compile-json/**/*.json", "!**/_*.json"])
+    return gulp.src(["data/**/*.json", "!**/_*.json"])
       .pipe(compileJson(params))
       .pipe(gulp.dest("../../../../public"));
   };

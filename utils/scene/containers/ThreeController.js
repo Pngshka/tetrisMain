@@ -6,10 +6,13 @@ import SceneController from "./SceneController";
 import Loader from "../loader/Loader";
 import {threeManager} from "../loader/plugins/threejs/ThreeManager";
 import ThreeParser from "../loader/plugins/postprocessing/ThreeParser";
+import FPSMeter, {fpsMeter} from "../utils/fps-meter/fps-meter";
 
 Loader.registerManager(threeManager, "threejs");
 
 export default class ThreeController extends SceneController {
+
+  debug = getIsDebug();
 
   clock = new THREE.Clock();
 
@@ -32,29 +35,35 @@ export default class ThreeController extends SceneController {
     this.sceneSettings = data.scene;
     this.rendererSettings = data.renderer;
 
-
+    this.onDecreaseStepChange = this.onDecreaseStepChange.bind(this);
     this.onResize = this.onResize.bind(this);
   }
 
-  loadingSelect() {
+  loadSelect() {
     if (this.storage.createBefore)
       ThreeParser.createObjectsFromParams(this.storage.createBefore, {
         scene: this.scene
       });
 
     return Loader.load(this.storage.preload, {
+      onProgress: ({itemsLoaded, itemsTotal}) => this.eventBus.dispatchEvent({
+        type: "controller:loading-progress",
+        data: {itemsLoaded, itemsTotal}
+      }),
       onLoad: this.onLoad, externalData: {
         scene: this.scene
       }
     })
   }
 
+  onDecreaseStepChange(step) {
+  }
 
-  init() {
-    super.init();
+  onLoad() {
+  }
 
-    if (this.debug)
-      this.initStats();
+  init(isDispatch = true) {
+    this.initStats();
 
     this.initRenderer();
     this.initScenes();
@@ -64,7 +73,7 @@ export default class ThreeController extends SceneController {
       this.appendContainer(this.container);
   }
 
-  initializationSelect() {
+  create() {
 
     this.initItems();
 
@@ -78,11 +87,9 @@ export default class ThreeController extends SceneController {
           scene: this.scene
         });
 
+    FPSMeter.listen(this.onDecreaseStepChange);
+    fpsMeter.start();
     requestAnimationFrame(this.update);
-  }
-
-  initItems() {
-
   }
 
   initDebug() {
@@ -140,6 +147,7 @@ export default class ThreeController extends SceneController {
         } = {}
       },
       rendererSettings: {
+        shadowSettings = shadow,
         backgroundColor = sBackgroundColor || "#cccccc",
         devicePixelRatio = window.devicePixelRatio,
         options = {antialias: true, logarithmicDepthBuffer: true}
@@ -149,11 +157,10 @@ export default class ThreeController extends SceneController {
     const renderer = this.renderer = new THREE.WebGLRenderer(options);
     renderer.setClearColor(backgroundColor);
     renderer.setPixelRatio(devicePixelRatio);
-    renderer.outputEncoding = THREE.sRGBEncoding;
 
-    if (shadow) {
+    if (shadowSettings) {
       renderer.shadowMap.enabled = true;
-      renderer.shadowMap.type = THREE.BasicShadowMap;
+      renderer.shadowMap.type = shadowSettings?.type ?? THREE.PCFShadowMap;
     }
   }
 
@@ -170,9 +177,11 @@ export default class ThreeController extends SceneController {
     return this.renderer?.domElement;
   }
 
-  onResize({width, height}) {
+  onResize({width, height} = this._size) {
     if (!this.renderer.domElement.parentElement) return;
     const {renderer} = this;
+
+    this._size = {width, height};
 
     Object.values(this.cameras).forEach(camera => {
       camera.aspect = width / height;
@@ -181,6 +190,7 @@ export default class ThreeController extends SceneController {
 
     Object.values(this.scenes).forEach(scene => scene.resize(width, height));
 
+
     renderer.setSize(width, height);
   }
 
@@ -188,23 +198,33 @@ export default class ThreeController extends SceneController {
     const stats = this.stats = new Stats();
     stats.domElement.style.position = 'absolute';
     stats.domElement.style.top = '0px';
-    document.body.appendChild(stats.domElement);
+    if (this.debug)
+      document.body.appendChild(stats.domElement);
   }
 
   exportGLTF(params) {
     return exportGLTF(this.currentScene, params)
   }
 
+  render() {
+    const {currentScene, currentCamera, renderer} = this;
+    renderer.render(currentScene, currentCamera);
+  }
+
   update() {
     if (this.stats) this.stats.end();
-    const {clock, currentScene, currentCamera, renderer} = this;
+    (performance || Date).now();
+
+    const {clock, currentScene} = this;
     const delta = clock.getDelta();
 
     currentScene.update(delta);
 
-    renderer.render(currentScene, currentCamera);
+    this.render();
 
     if (this.stats) this.stats.begin();
+
+    (performance || Date).now();
 
     return delta;
   }
