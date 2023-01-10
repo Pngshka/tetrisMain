@@ -73,6 +73,10 @@ export default class ThreeController extends SceneController {
       this.appendContainer(this.container);
   }
 
+  initItems(){
+
+  }
+
   create() {
 
     this.initItems();
