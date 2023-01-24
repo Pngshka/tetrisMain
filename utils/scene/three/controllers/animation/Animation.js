@@ -9,7 +9,7 @@ export default class Animation {
 
   _labelProgress = 0;
 
-  constructor({model, duration, target, fps, name, totalFrames, labels = {}}) {
+  constructor({model, duration, target, fps, name, labels = {}}) {
 
     if (!model) return;
     this.target = target;
@@ -23,6 +23,8 @@ export default class Animation {
       this.mixer.clipAction(animation).play()
     });
     this.mixer.setTime(0);
+
+    const totalFrames = this.animationDuration * 60;
 
     this.labels = Object.entries(labels).map(([name, labelData]) => new AnimationLabel(name, {
       ...labelData,
