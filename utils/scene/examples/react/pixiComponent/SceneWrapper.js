@@ -6,10 +6,10 @@ export default function SceneWrapper() {
   useEffect(() => {
     const promise =
       import("../../../pixi/pixi")
-        .then(() => import("../../controller/PixiController"))
+        .then(() => import("../../controller/CustomPixiWrapper"))
         .then(data => {
-          const {default: PixiController} = data;
-          PixiController.instance.init();
+          const {default: CustomPixiWrapper} = data;
+          CustomPixiWrapper.instance.init();
           return data;
         })
 

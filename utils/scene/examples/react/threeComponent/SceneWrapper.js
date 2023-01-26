@@ -6,10 +6,10 @@ export default function SceneWrapper() {
   useEffect(() => {
     const promise =
       import("../../../three/three.jsm")
-        .then(() => import("../../controller/ThreeController"))
+        .then(() => import("../../controller/CustomThreeWrapper"))
         .then(data => {
-          const {default: ThreeController} = data;
-          ThreeController.instance.init();
+          const {default: CustomThreeWrapper} = data;
+          CustomThreeWrapper.instance.init();
           return data;
         })
 
