@@ -1,6 +1,6 @@
 
 export default class PseudoRandom {
-  constructor({base} = {base: 100}) {
+  constructor({base} = {base: 1}) {
     this._base = base;
     this.updateChance();
   }
