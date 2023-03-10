@@ -36,10 +36,13 @@ export default class GLTFLoader extends BaseLoader {
           const cacheKey = (sourceDef.uri || sourceDef.bufferView) + ':' + textureDef.sampler;
 
           const promise = this.loadTexture(`${path}${sourceDef.uri}`).then(texture => {
-            parser.textureCache[cacheKey] = texture;
+
             if (!AssetsManager.getAssetFromLib(sourceDef.uri, "texture"))
               AssetsManager.addAssetToLib(texture, sourceDef.uri, "texture");
-            return texture;
+
+            parser.textureCache[cacheKey] = AssetsManager.getAssetFromLib(sourceDef.uri, "texture");
+
+            return parser.textureCache[cacheKey];
           });
 
           parser.cache.add(`texture:${index}`, promise)
