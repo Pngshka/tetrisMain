@@ -59,8 +59,6 @@ export default class ThreeController extends SceneController {
   onDecreaseStepChange(step) {
   }
 
-  onLoad() {
-  }
 
   init(isDispatch = true) {
     this.initStats();
