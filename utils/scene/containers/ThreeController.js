@@ -42,7 +42,7 @@ export default class ThreeController extends SceneController {
   loadSelect() {
     if (this.storage.createBefore)
       ThreeParser.createObjectsFromParams(this.storage.createBefore, {
-        scene: this.scene
+        scene: this.currentScene
       });
 
     return Loader.load(this.storage.preload, {
@@ -51,7 +51,7 @@ export default class ThreeController extends SceneController {
         data: {itemsLoaded, itemsTotal}
       }),
       onLoad: this.onLoad, externalData: {
-        scene: this.scene
+        scene: this.currentScene
       }
     })
   }
@@ -83,10 +83,10 @@ export default class ThreeController extends SceneController {
       this.initDebug();
 
     if (this.storage.sceneOverrides)
-      ThreeParser.overrideObjects(this.scene,
+      ThreeParser.overrideObjects(this.currentScene,
         this.storage.sceneOverrides,
         {
-          scene: this.scene
+          scene: this.currentScene
         });
 
     FPSMeter.listen(this.onDecreaseStepChange);
