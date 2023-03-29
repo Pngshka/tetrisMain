@@ -188,6 +188,7 @@ class SoundManager {
     sound.animation = `fade_${direction}`;
     if (direction === "in") {
       const volume = options.volume !== undefined ? options.volume : 1;
+      sound.volume = 0;
       fromTo(sound, {volume: 0}, {volume}, 3);
     } else
       to(sound, {volume: 0}, 0.5, () => this.pauseSound(name))
