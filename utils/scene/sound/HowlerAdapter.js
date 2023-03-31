@@ -49,9 +49,9 @@ export default class HowlerAdapter extends BaseAdapter {
     return Howler.state === "suspended";
   }
 
-  stop(name) {
+  stop(name, id) {
     const howl = this.items[name].sound;
-    howl.stop();
+    howl.stop(id);
   }
 
   set volumeAll(volumeAll) {

@@ -148,18 +148,18 @@ class SoundManager {
   }
 
 
-  pauseSound(name) {
-    this.adapter.stop(name);
+  pauseSound(name, id) {
+    this.adapter.stop(name, id);
     this.sounds[name].soundPaused = true;
   }
 
-  onPause(name, {animationEnd} = {}) {
+  onPause(name, {animationEnd, id, duration} = {}) {
     const current = this.sounds[name];
     if (!current) return;
     if (animationEnd)
-      this.animate(name, this.sounds[name], animationEnd, "out");
+      this.animate(name, this.sounds[name], animationEnd, "out", {id, duration});
     else {
-      this.pauseSound(name);
+      this.pauseSound(name, id);
     }
   }
 
@@ -189,9 +189,10 @@ class SoundManager {
     if (direction === "in") {
       const volume = options.volume !== undefined ? options.volume : 1;
       sound.volume = 0;
-      fromTo(sound, {volume: 0}, {volume}, 3);
-    } else
-      to(sound, {volume: 0}, 0.5, () => this.pauseSound(name))
+      fromTo(sound, {volume: 0}, {volume}, options?.duration ?? 3);
+    } else {
+      to(sound, {volume: 0}, options?.duration ?? 0.5, () => this.pauseSound(name, options.id))
+    }
   }
 }
 

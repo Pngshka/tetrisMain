@@ -4,7 +4,7 @@ const requestAnimationFrame = global?.window?.requestAnimationFrame || function 
 
 function to(object, to, duration, onComplete) {
   const from = {};
-  Object.keys(from).forEach(key => from[key] = object[key] || 0);
+  Object.keys(to).forEach(key => from[key] = object[key] || 0);
   fromTo(object, from, to, duration, onComplete);
 }
 
