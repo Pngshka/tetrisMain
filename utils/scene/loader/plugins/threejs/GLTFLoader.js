@@ -5,6 +5,8 @@ export default class GLTFLoader extends BaseLoader {
 
   static name = "ThreeGLTFLoader"
 
+  dracoLoader;
+
   constructor(manager) {
     super(manager);
     this.checkParser = this.checkParser.bind(this);
@@ -42,7 +44,7 @@ export default class GLTFLoader extends BaseLoader {
 
             parser.textureCache[cacheKey] = AssetsManager.getAssetFromLib(sourceDef.uri, "texture");
 
-            return parser.textureCache[cacheKey];
+            return AssetsManager.getAssetFromLib(sourceDef.uri, "texture");
           });
 
           parser.cache.add(`texture:${index}`, promise)
@@ -73,18 +75,25 @@ export default class GLTFLoader extends BaseLoader {
     super.load(url);
 
     if (settings.addDracoLoader) {
-      const dracoLoader = new THREE.DRACOLoader(this.manager);
-      dracoLoader.setDecoderPath(`${global.ASSETS_PREFIX}js/libs/`);
-      dracoLoader.setDecoderConfig({type: 'js'});
 
-      loader.setDRACOLoader(dracoLoader);
+      if (!this.dracoLoader) {
+        const dracoLoader = new THREE.DRACOLoader(this.manager);
+        dracoLoader.setDecoderPath(`${global.ASSETS_PREFIX}js/libs/`);
+        dracoLoader.setDecoderConfig({type: 'js'});
+
+        this.dracoLoader = dracoLoader;
+      }
+
+      loader.setDRACOLoader(this.dracoLoader);
     }
 
 
     loader.pluginCallbacks.push(this.checkParser.bind(this, settings));
 
     loader.load(url, (data) => {
+
       data.scene.animations = data.animations;
+
       this.onLoad(settings, data.scene)
     })
   }
