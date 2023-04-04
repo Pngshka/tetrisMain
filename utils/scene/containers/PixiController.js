@@ -70,5 +70,7 @@ export default class PixiController extends SceneController {
         applicationSettings
       )
     );
+
+    globalThis.__PIXI_APP__ = this.app;
   }
 }
