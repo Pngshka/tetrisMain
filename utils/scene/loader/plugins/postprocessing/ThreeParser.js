@@ -158,7 +158,7 @@ export default class ThreeParser {
         if (typeof newMatClass !== 'string')
           item.material = newMatClass;
         else
-          ThreeParser.changeMaterialType(newMatClass, material, item);
+          ThreeParser.changeMaterialType(THREE[newMatClass], material, item);
       }
     });
 
