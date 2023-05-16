@@ -1,10 +1,10 @@
 import {useEffect} from "react";
 
-export default function useStateReducer(reducers = {}, ignoreNextStates = [], nextState, state, controller) {
+export default function useStateReducer(reducers = {}, ignoreNextStates = [], nextState, state, wrapper) {
   useEffect(() => {
-    if (!controller) return;
+    if (!wrapper) return;
     const eventData = {state, promise: null};
-    controller.eventBus.dispatchEvent({type: "apply-state", data: eventData})
+    wrapper.eventBus.dispatchEvent({type: "apply-state", data: eventData})
     const {promise: controllerPromise} = eventData;
     let ignorePromise = ignoreNextStates.indexOf(state) !== -1;
 
@@ -15,5 +15,5 @@ export default function useStateReducer(reducers = {}, ignoreNextStates = [], ne
 
     if (!ignorePromise)
       controllerPromise.then(() => nextState(state));
-  }, [state, controller]);
+  }, [state, wrapper]);
 }

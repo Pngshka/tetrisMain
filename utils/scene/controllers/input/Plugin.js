@@ -23,4 +23,8 @@ export default class Plugin {
   updateAction() {
 
   }
+
+  reset() {
+    this._actions.forEach(action => action.active = false);
+  }
 }

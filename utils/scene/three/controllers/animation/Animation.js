@@ -9,7 +9,7 @@ export default class Animation {
 
   _labelProgress = 0;
 
-  constructor({model, duration, target, fps, name, labels = {}}) {
+  constructor({model, duration, target, fps, name, customClip = false, labels = {}}) {
 
     if (!model) return;
     this.target = target;
@@ -18,10 +18,16 @@ export default class Animation {
     this.animationDuration = 0;
     this.name = name;
 
-    model.animations.forEach((animation) => {
+    if (customClip) {
+      const animation = model.animations.find(({name}) => name === this.name);
       this.animationDuration = Math.max(this.animationDuration, animation.duration);
       this.mixer.clipAction(animation).play()
-    });
+    } else
+      model.animations.forEach((animation) => {
+        this.animationDuration = Math.max(this.animationDuration, animation.duration);
+        this.mixer.clipAction(animation).play()
+      });
+
     this.mixer.setTime(0);
 
     const totalFrames = this.animationDuration * 60;
@@ -39,6 +45,10 @@ export default class Animation {
 
   getLabelDuration(name) {
     return this.getLabelByName(name ?? this.label)?.duration;
+  }
+
+  stop() {
+    gsap.killTweensOf(this);
   }
 
   play(params = {}) {

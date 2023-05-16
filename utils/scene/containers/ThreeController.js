@@ -71,7 +71,7 @@ export default class ThreeController extends SceneController {
       this.appendContainer(this.container);
   }
 
-  initItems(){
+  initItems() {
 
   }
 
@@ -150,14 +150,20 @@ export default class ThreeController extends SceneController {
       },
       rendererSettings: {
         shadowSettings = shadow,
-        backgroundColor = sBackgroundColor || "#cccccc",
+        backgroundColor = (sBackgroundColor ?? "#cccccc"),
+        backgroundTransparent = false,
+        backgroundOpacity = 1,
         devicePixelRatio = window.devicePixelRatio,
         options = {antialias: true, logarithmicDepthBuffer: true}
       } = {}
     } = this;
 
     const renderer = this.renderer = new THREE.WebGLRenderer(options);
-    renderer.setClearColor(backgroundColor);
+    if (backgroundTransparent)
+      renderer.setClearColor(backgroundColor, backgroundOpacity);
+    else
+      renderer.setClearColor(backgroundColor);
+
     renderer.setPixelRatio(devicePixelRatio);
     renderer.outputEncoding = THREE.sRGBEncoding;
 
@@ -188,6 +194,7 @@ export default class ThreeController extends SceneController {
 
     Object.values(this.cameras).forEach(camera => {
       camera.aspect = width / height;
+
       camera.updateProjectionMatrix();
     });
 
