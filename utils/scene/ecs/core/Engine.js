@@ -1,5 +1,5 @@
 import Entity from "./Entity";
-import Collection from "../../../structures/Collection";
+import Collection from "../../structures/Collection";
 import Component from "./Component";
 
 export default class Engine {
