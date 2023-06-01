@@ -17,7 +17,7 @@ export default class AssetsManager {
     if (!asset)
       return console.warn(`Trying to remove an unregistered Asset from the Lib ${id}`)
 
-    delete this.lib[id].assets[id];
+    delete this.lib[type].assets[id];
     if (isDiscard && typeof asset.discard === "function")
       asset.discard();
   }
