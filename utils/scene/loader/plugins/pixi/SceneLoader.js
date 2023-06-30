@@ -11,12 +11,11 @@ export default class SceneLoader extends BaseLoader {
     super.load(pathName);
 
     this.loadScript(settings)
-      .then(() => this.loadScene(settings))
+      .then((data) => this.loadScene(settings, data))
       .then(data => this.onLoad(settings, data))
   }
 
-  loadScene({path}) {
-    const animationData = global.module.exports;
+  loadScene({path}, animationData) {
     const loader = new PIXI.Loader();
     loader.baseUrl = this.manager.resolveURL(path);
 
@@ -31,16 +30,23 @@ export default class SceneLoader extends BaseLoader {
     })
   }
 
+  /**
+   * !! В Adobe Animate в "параметры публикации" нужно выбирать "CommonJS"
+   */
   loadScript({path, sceneName}) {
     const scriptPath = this.manager.resolveURL(`${path}${sceneName}.js`)
 
-    global.module = global.module ?? {};
-
     return new Promise(resolve => {
-      const script = document.createElement('script');
-      script.onload = resolve;
-      script.src = scriptPath;
-      document.head.appendChild(script);
+      var client = new XMLHttpRequest();
+      client.open('GET', scriptPath);
+      client.onload = resolve;
+      client.send();
+
+    }).then(({target: {response}}) => {
+      window.data = {exports: null};
+      const script = `(function (module){${response}})(window.data)`;
+      eval(script);
+      return window.data.exports;
     });
   }
 }
