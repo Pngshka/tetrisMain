@@ -15,6 +15,18 @@ export default class KeyboardPlugin extends Plugin {
     super.addAction(action);
   }
 
+  attachGlobal() {
+    this.attach(global.window)
+    if (global.window.top !== global.window) {
+      try {
+        this.attach(global.window.top);
+      } catch (e) {
+        console.log(e)
+      }
+    }
+
+  }
+
   attach(target) {
     target.removeEventListener("keydown", this.onKeyDown);
     target.removeEventListener("keyup", this.onKeyUp);
@@ -30,12 +42,12 @@ export default class KeyboardPlugin extends Plugin {
 
   getKey(code) {
     if (!this._keys[code])
-      this._keys[code] = new Key({ code });
+      this._keys[code] = new Key({code});
 
     return this._keys[code];
   }
 
-  onKeyDown = ({ keyCode }) => {
+  onKeyDown = ({keyCode}) => {
     const key = this.getKey(keyCode);
     if (key.pressed) return;
     key.pressed = true;
@@ -43,7 +55,7 @@ export default class KeyboardPlugin extends Plugin {
     this.checkActions();
   };
 
-  onKeyUp = ({ keyCode }) => {
+  onKeyUp = ({keyCode}) => {
     const key = this.getKey(keyCode);
     if (!key.pressed) return;
     key.pressed = false;
@@ -52,8 +64,8 @@ export default class KeyboardPlugin extends Plugin {
   };
 
   updateAction(action) {
-    const { data: { keyboard: { keys } } } = action;
-    action.active = keys.some(({ keyCode }) => this._keys?.[keyCode]?.pressed);
+    const {data: {keyboard: {keys}}} = action;
+    action.active = keys.some(({keyCode}) => this._keys?.[keyCode]?.pressed);
   }
 
 }

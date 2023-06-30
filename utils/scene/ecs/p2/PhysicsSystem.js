@@ -120,7 +120,6 @@ export default class PhysicsSystem extends System {
       [x + width / 2, y - height / 2, width, height],
       [x + width * 1.5, y + height / 2, width, height],
       [x + width, y + height * 1.5, width / 3, height],
-
     ].forEach(([x, y, width, height]) => {
       const body = new P2.Body({
         position: [x, y],
@@ -164,6 +163,7 @@ export default class PhysicsSystem extends System {
 
       matrixComponent.x = x;
       matrixComponent.y = y;
+
       matrixComponent.rotation = angle;
     });
 

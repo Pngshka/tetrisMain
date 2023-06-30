@@ -37,6 +37,11 @@ export function smoothstep(near, far, depth) {
 
 }
 
+export function recursiveDisableAutoUpdateMatrix(object, disable = true) {
+  disableAutoUpdateMatrix(object, disable);
+  object.traverse(child => disableAutoUpdateMatrix(child, disable));
+}
+
 export function linearize(depth, camera) {
 
   const zfar = camera.far;
@@ -262,11 +267,11 @@ export function getThreeObjectByString(path, context) {
 function decToHex(rgb) {
   const hex = Number(rgb).toString(16);
   return hex.length < 2 ? `0${hex}` : hex;
-};
+}
 
 export function decColorToHex(r, g, b) {
   return decToHex(r) + decToHex(g) + decToHex(b);
-};
+}
 
 
 export function isObject(item) {

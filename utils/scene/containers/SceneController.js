@@ -13,8 +13,6 @@ export default class SceneController {
 
   container;
 
-  state;
-
   debug = getIsDebug();
 
   constructor({storage, eventBus} = {}) {

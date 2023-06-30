@@ -16,7 +16,7 @@ export default class BodyHelperComponent extends Component {
 
   initGraphics() {
     const {settings: {color}} = this;
-    return new PIXI.Graphics().beginFill(color);
+    return new PIXI.Graphics().beginFill(color, .5);
   }
 
   set pixiObject(helper) {

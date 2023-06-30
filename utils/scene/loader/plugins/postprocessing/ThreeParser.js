@@ -61,7 +61,7 @@ export default class ThreeParser {
 
   static parseMaterialsAndTexturesFromSceneFile(scene) {
     scene.traverse(item => {
-      if (!item.type !== ThreeParser.TYPES.mesh) return;
+      if (item.type.toLowerCase() !== ThreeParser.TYPES.mesh) return;
 
       if (item.material.length)
         item.material.forEach(mat => ThreeParser.saveMaterial(mat));
@@ -158,7 +158,7 @@ export default class ThreeParser {
         if (typeof newMatClass !== 'string')
           item.material = newMatClass;
         else
-          ThreeParser.changeMaterialType(newMatClass, material, item);
+          ThreeParser.changeMaterialType(THREE[newMatClass], material, item);
       }
     });
 
@@ -185,6 +185,7 @@ export default class ThreeParser {
       // Remove custom attrs from the Data object
       delete newMatDataCleared.type;
       delete newMatDataCleared.name;
+      delete newMatDataCleared.ignorePrefix;
       delete newMatDataCleared.namePrefix;
       delete newMatDataCleared.nameSuffix;
 
@@ -195,7 +196,7 @@ export default class ThreeParser {
         const matName = _matName.trim();
 
         let currentMaterial = AssetsManager.getAssetFromLib(
-          `${ThreeParser.PREFIXES.material}${matName}`,
+          `${newMatData.ignorePrefix ? "" : ThreeParser.PREFIXES.material}${matName}`,
           ThreeParser.TYPES.material
         );
 
