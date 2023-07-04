@@ -46,7 +46,7 @@
     "use-deep-compare-effect": "^1.4.0",
     "yup": "^0.29.3",
     "stats.js": "^0.17.0",
-    "three": "^0.145.0",
+    "three": "^0.153.0",
     "@pixi/animate": "^2.0.3",
     "pixi.js-legacy": "^6.5.8"
   },
