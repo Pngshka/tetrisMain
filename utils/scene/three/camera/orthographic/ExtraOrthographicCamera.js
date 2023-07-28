@@ -27,6 +27,7 @@ export default class ExtraOrthographicCamera extends THREE.OrthographicCamera {
     this.top = size / 2 + shiftY;
     this.bottom = size / -2 + shiftY;
 
+    console.log(this);
   }
 
   set aspect(aspect) {
