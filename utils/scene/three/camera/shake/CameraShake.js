@@ -1,6 +1,9 @@
 import * as SimplexNoise from "simplex-noise";
 import seedrandom from "seedrandom";
 
+/**
+ * example: https://gitlab.peppers-studio.ru/peppers/230605_1/-/blob/dev/controllers/jumper/systems/CamerasSystem.js
+ */
 export class CameraShake {
   constructor() {
 
