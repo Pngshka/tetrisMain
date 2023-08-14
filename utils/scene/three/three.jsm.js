@@ -14,7 +14,4 @@ THREE.SkeletonUtils = SkeletonUtils;
 const {InteractionManager} = require('./interaction/three.interactive');
 THREE.InteractionManager = InteractionManager;
 
-require('./materials/MultiplyMaterial');
-require('./camera/ExtraOrthographicCamera');
-
 export default THREE;
