@@ -1,5 +1,6 @@
 import {LoadersManager} from "../LoadersManager";
 import JSONLoader from "./JSONLoader";
+import SVGLoader from "./SVGLoader";
 
 export class BaseManager extends LoadersManager {
 
@@ -7,6 +8,8 @@ export class BaseManager extends LoadersManager {
     switch (type) {
       case "json":
         return JSONLoader;
+      case "svg":
+        return SVGLoader;
     }
   }
 }
