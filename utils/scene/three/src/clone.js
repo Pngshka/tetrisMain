@@ -9,7 +9,7 @@ export function deepClone(object, settings = defaultSettings) {
 
     return clone;
   }
-  clone = object.clone();
+  clone = object.clone(false);
 
   object.children.forEach(child => clone.add(deepClone(child, settings)));
 
