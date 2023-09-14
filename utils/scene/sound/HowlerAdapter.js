@@ -1,8 +1,7 @@
 import {Howl, Howler} from 'howler';
 import HowlerSound from "./HowlerSound";
 import BaseAdapter from "./BaseAdapter";
-
-const {gsap} = global;
+import {to} from "./SimpleTween";
 
 export default class HowlerAdapter extends BaseAdapter {
 
@@ -38,11 +37,7 @@ export default class HowlerAdapter extends BaseAdapter {
 
 
   onUnlocked() {
-    gsap.to(this, {
-      lockedMod: 1,
-      duration: 3,
-    });
-
+    to(this, {lockedMod: 1}, 3)
   }
 
   get isLocked() {
