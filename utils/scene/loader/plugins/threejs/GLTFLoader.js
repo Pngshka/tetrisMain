@@ -1,12 +1,21 @@
 import BaseLoader from "../BaseLoader";
 import AssetsManager from "../AssetsManager";
 
+/**
+ * {
+ *     "subtype": "threejs",
+ *     "type": "gltf",
+ *     "name": "some_model",
+ *     "addDracoLoader": true, - [optional] add this property if gltf was compressed
+ *     "path": "assets/", - path to asset's folder
+ *     "fileName": "model.gltf" - asset's file name
+ *   }
+ */
 export default class GLTFLoader extends BaseLoader {
 
   static name = "ThreeGLTFLoader"
 
   dracoLoader;
-
   constructor(manager) {
     super(manager);
     this.checkParser = this.checkParser.bind(this);

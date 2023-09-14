@@ -1,6 +1,15 @@
 import BaseLoader from "../BaseLoader";
 import {soundManager} from "../../../sound/SoundManager";
 
+/**
+ *  {
+ *     "subtype": "howler",
+ *     "type": "sound",
+ *     "name": "some_name", - name for getting from AssetsManager
+ *     "path": "sounds/", - path to asset's folder
+ *     "fileName": "sound.mp3" - asset's file name
+ *   }
+ */
 export default class SoundLoader extends BaseLoader {
 
   static name = "HowlerSoundLoader"

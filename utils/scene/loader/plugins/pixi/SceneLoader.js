@@ -1,5 +1,14 @@
 import BaseLoader from "../BaseLoader";
 
+/**
+ *   {
+ *     "subtype": "pixijs",
+ *     "type": "scene",
+ *     "name": "some_scene", - name for getting from AssetsManager
+ *     "sceneName": "some_scene",
+ *     "path": "assets/scenes/" - path to asset's folder
+ *   }
+ */
 export default class SceneLoader extends BaseLoader {
 
   static name = "PixiSceneLoader";

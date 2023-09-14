@@ -1,5 +1,14 @@
 import BaseLoader from "../BaseLoader";
 
+/**
+ *   {
+ *     "subtype": "base",
+ *     "type": "svg",
+ *     "name": "someName", - name for getting from AssetsManager
+ *     "path": "assets/tree/svg/", - path to asset's folder
+ *     "fileName": "block_tree_head.svg" - asset's file name
+ *   }
+ */
 export default class SVGLoader extends BaseLoader {
 
   load(settings) {
