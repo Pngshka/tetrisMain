@@ -1,14 +1,14 @@
 import React from 'react';
 import PageDescription from "../components/baseComponents/head/pageDescription/PageDescription";
 import defaultPage from "../constants/page-description";
-import SceneWrapper from "../components/threeComponent/SceneWrapper";
+import Scene from "../components/threeComponent/Scene";
 
 export default function Home() {
 
   return (
     <div className="container">
       <PageDescription {...defaultPage}/>
-      <SceneWrapper/>
+      <Scene/>
     </div>
   );
 }

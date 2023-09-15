@@ -1,5 +1,5 @@
 export function getNextState(states, currentState) {
-  let nextState = states[currentState]?.availableStates[0];
+  let nextState = states[currentState]?.nextState ?? states[currentState]?.availableStates[0];
   if (!nextState) {
     const keys = Object.keys(states);
     nextState = keys[Math.min(keys.indexOf(currentState) + 1, keys.length - 1)];

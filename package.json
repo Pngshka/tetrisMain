@@ -45,8 +45,9 @@
     "swiper": "^8.3.2",
     "use-deep-compare-effect": "^1.4.0",
     "yup": "^0.29.3",
+    "gsap": "^3.12.2",
     "stats.js": "^0.17.0",
-    "three": "^0.153.0",
+    "three": "^0.156.1",
     "@pixi/animate": "^2.0.3",
     "pixi.js-legacy": "^6.5.8"
   },

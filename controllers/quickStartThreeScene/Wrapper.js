@@ -1,13 +1,13 @@
 import ThreeWrapper from "../../utils/scene/wrappers/threejs/ThreeWrapper";
 import Data from "./Data";
-import CustomThreeScene from "./CustomThreeScene";
+import Controller from "./Controller";
 
-export default class CustomThreeWrapper extends ThreeWrapper {
+export default class Wrapper extends ThreeWrapper {
 
   storage = new Data();
 
   static get instance() {
-    if (!this._instance) this._instance = new CustomThreeWrapper();
+    if (!this._instance) this._instance = new Wrapper();
 
     return this._instance;
   }
@@ -17,6 +17,6 @@ export default class CustomThreeWrapper extends ThreeWrapper {
   initController() {
     const {eventBus, storage} = this;
 
-    return new CustomThreeScene({eventBus, storage});
+    return new Controller({eventBus, storage});
   }
 }

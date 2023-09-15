@@ -2,48 +2,48 @@ import {useEffect} from "react";
 import {setImportPromise} from "../../utils/helpers/import";
 
 export function useLoadController({
-                                    beforeInit,
-                                    afterInit,
-                                    onLoadPromiseInit,
-                                    onProgress,
-                                    getLibsPromise = Promise.resolve(),
-                                    getWrapperPromise = Promise.resolve({default: null}),
+                                      beforeInit,
+                                      afterInit,
+                                      onLoadPromiseInit,
+                                      onProgress,
+                                      getLibsPromise = Promise.resolve(),
+                                      getWrapperPromise = Promise.resolve({default: null}),
                                   } = {}) {
-  useEffect(() => {
-    const data = {};
+    useEffect(() => {
+        const data = {};
 
-    let isUnmounted = false;
+        let isUnmounted = false;
 
-    const promise = (async () => {
-      await getLibsPromise();
+        const promise = (async () => {
+            await getLibsPromise();
 
-      if (isUnmounted) return data;
+            if (isUnmounted) return data;
 
-      const {default: WrapperClass} = await getWrapperPromise();
-      const wrapper = WrapperClass.instance;
+            const {default: WrapperClass} = await getWrapperPromise();
+            const wrapper = WrapperClass.instance;
 
-      data.wrapper = wrapper;
+            data.wrapper = wrapper;
 
-      onProgress && wrapper.eventBus.addEventListener("scene-controller:loading-progress", onProgress);
+            onProgress && wrapper.eventBus.addEventListener("scene-controller:loading-progress", onProgress);
 
-      if (isUnmounted) return data;
+            if (isUnmounted) return data;
 
-      beforeInit?.(data);
+            beforeInit?.(data);
 
-      wrapper?.init();
+            wrapper?.init();
 
-      afterInit?.(data);
+            afterInit?.(data);
 
-      return data;
-    })();
+            return data;
+        })();
 
-    data.promise = promise;
-    setImportPromise(promise);
+        data.promise = promise;
+        setImportPromise(promise);
 
-    onLoadPromiseInit?.(data)
+        onLoadPromiseInit?.(data)
 
-    return () => {
-      isUnmounted = true
-    };
-  }, []);
+        return () => {
+            isUnmounted = true
+        };
+    }, []);
 }

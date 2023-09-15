@@ -1,9 +1,8 @@
-import {useDispatch} from "react-redux";
 import {useEffect, useRef, useState} from "react";
 import {ignoreNextStates, states} from "../../constants/states";
 import useStateReducer from "../../utils/scene/react/hooks/useStateReducer";
 import {useLoadController} from "../../utils/scene/react/hooks/useLoadController";
-import {baseThreeImports} from "../../utils/scene/utils/import/import-three";
+import {basePixiImports} from "../../utils/scene/utils/import/import-pixi";
 import {getNextState} from "../../utils/scene/utils/state/state";
 
 export default function Scene() {
@@ -12,8 +11,8 @@ export default function Scene() {
   const [state, setState] = useState("loadManifest");
 
   useLoadController({
-    getLibsPromise: baseThreeImports,
-    getWrapperPromise: () => import(`../../controllers/quickStartThreeScene/Wrapper`),
+    getLibsPromise: basePixiImports,
+    getWrapperPromise: () => import(`../../controllers/quickStartPIXIScene/Wrapper`),
     beforeInit: ({wrapper}) => setWrapper(wrapper),
   });
 
