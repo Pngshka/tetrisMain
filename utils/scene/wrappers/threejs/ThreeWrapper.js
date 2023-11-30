@@ -1,7 +1,7 @@
 import BaseWrapper from "../BaseWrapper";
 import State from "../../decorators/state/State";
 import ThreeResize from "../../decorators/resize/ThreeResize";
-import ThreeController from "../../containers/ThreeController";
+import ThreeController from "../../containers/ThreeController"; //"../../containers/GameControllerTetris"
 
 export default class ThreeWrapper extends BaseWrapper {
 

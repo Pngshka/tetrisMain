@@ -2,6 +2,7 @@ import React from 'react';
 import PageDescription from "../components/baseComponents/head/pageDescription/PageDescription";
 import defaultPage from "../constants/page-description";
 import Scene from "../components/threeComponent/Scene";
+import SceneGame from "../components/threeComponent/SceneGame";
 
 export default function Home() {
 
@@ -9,6 +10,7 @@ export default function Home() {
     <div className="container">
       <PageDescription {...defaultPage}/>
       <Scene/>
+      <SceneGame/>
     </div>
   );
 }

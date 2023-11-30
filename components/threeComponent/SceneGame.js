@@ -1,19 +1,20 @@
 import {useDispatch} from "react-redux";
 import {useEffect, useRef, useState} from "react";
-import {ignoreNextStates, states} from "../../constants/states";
+import {ignoreNextStates, states} from "../../utils/scene/examples/constants/statesGame";
 import useStateReducer from "../../utils/scene/react/hooks/useStateReducer";
 import {useLoadController} from "../../utils/scene/react/hooks/useLoadController";
 import {baseThreeImports} from "../../utils/scene/utils/import/import-three";
 import {getNextState} from "../../utils/scene/utils/state/state";
 
-export default function Scene() {
+export default function SceneGame() {
   const wrapperRef = useRef();
   const [wrapper, setWrapper] = useState();
-  const [state, setState] = useState("loadManifest");
-// debugger
+  const [state, setState] = useState("loadingManifest"); //loadingManifest
+
+  // debugger
   useLoadController({
     getLibsPromise: baseThreeImports,
-    getWrapperPromise: () => import(`../../controllers/quickStartThreeScene/Wrapper`),
+    getWrapperPromise: () => import(`../../controllers/quickStartGameThreeScene/Wrapper`),
     beforeInit: ({wrapper}) => setWrapper(wrapper),
   });
 
@@ -24,9 +25,11 @@ export default function Scene() {
 
   useStateReducer({}, ignoreNextStates, state => setState(getNextState(states, state)), state, wrapper);
 
+  console.log(wrapper)
+
   return (
     <div className={"scene"}>
-      <div className={"scene__wrapper"} ref={wrapperRef}/>
+      <div className={"game__wrapper"} ref={wrapperRef} id={"div"}/>
     </div>
   );
 }

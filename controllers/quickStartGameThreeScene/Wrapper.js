@@ -9,9 +9,6 @@ export default class Wrapper extends ThreeWrapper {
   static get instance() {
     if (!this._instance) this._instance = new Wrapper();
 
-    // console.log( this._instance)
-    // debugger
-
     return this._instance;
   }
 
@@ -20,6 +17,6 @@ export default class Wrapper extends ThreeWrapper {
   initController() {
     const {eventBus, storage} = this;
 
-    return new Controller({eventBus, storage});
+    return new Controller({eventBus, storage}, this._instance);
   }
 }
