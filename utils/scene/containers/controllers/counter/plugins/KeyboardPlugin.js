@@ -2,15 +2,14 @@
 
 import { BasePlugin } from "./BasePlugin.js";
 import { InputController } from '../input-controller.js';
-import { ActivWithKeyCode } from "./ActivWithKeyCode.js";
 import GameControllerTetris from "../Tetris/GameControllerTetris.js";
 
 
 export class KeyboardPlugin extends BasePlugin {
-    constructor(inputController, target, _instance) {
+    constructor(inputController, renderer, target) {
         super(inputController, target);
 
-        this.gameControllerTetris = new GameControllerTetris(_instance);
+        this.gameControllerTetris = new GameControllerTetris(renderer);
 
         if (target) {
             this.startAndEndEvent = this.startAndEndEvent.bind(this);

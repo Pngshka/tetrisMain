@@ -27,19 +27,19 @@ export default class GameControllerTetris {
     data;
     colorNow;
 
-    constructor(_instance) {
-        this.initialization(_instance);
+    constructor(renderer) {
+        this.initialization(renderer);
     };
 
-    async initialization(_instance){
-        debugger
+    async initialization(renderer){
+
         const response = await fetch('/assets/tetrisAssets.json');
         this.data = await response.json();
 
         this.utilities = new Utilities();
 
         this.matrix = Array(ROW).fill().map(() => Array(COL).fill(0));
-        this.animationControllerTetris = new AnimationControllerTetris(this.data, _instance);
+        this.animationControllerTetris = new AnimationControllerTetris(this.data, renderer);
 
         this.fpsInterval = 1000 / 5;
         this.then = Date.now();

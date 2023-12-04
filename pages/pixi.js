@@ -10,7 +10,6 @@ export default function Home() {
     <div className="container">
       <PageDescription {...defaultPage}/>
       <SceneGame/>
-      <Scene/>
     </div>
   );
 }

@@ -30,10 +30,11 @@ export default class ThreeController extends SceneController {
 
   currentCamera = null;
 
-  constructor(data) {
+  constructor(data, _instance) {
     super(data);
     this.sceneSettings = data.scene;
     this.rendererSettings = data.renderer;
+    // this.renderer=controller.renderer;
 
     this.onDecreaseStepChange = this.onDecreaseStepChange.bind(this);
     this.onResize = this.onResize.bind(this);
@@ -175,7 +176,6 @@ export default class ThreeController extends SceneController {
 
   appendContainer(container) {
     if (this.renderer) {
-      container.innerHTML = "";
       container.appendChild(this.renderer.domElement);
     }
 

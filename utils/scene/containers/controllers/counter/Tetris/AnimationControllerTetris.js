@@ -22,9 +22,8 @@ export class AnimationControllerTetris {
     factory;
     factoryF;
 
-    constructor(data, _instance) {
-        // debugger
-        this.container = _instance;
+    constructor(data, renderer) {
+        this.renderer = renderer
 
         // this.abstractFactory = new AbstractFactory()
         //this.factory.construct(mat2);
@@ -36,7 +35,7 @@ export class AnimationControllerTetris {
         this.scene = new THREE.Scene();
         this.camera = new THREE.OrthographicCamera(window.innerWidth / -CAMERA, window.innerWidth / CAMERA, window.innerHeight / CAMERA, window.innerHeight / -CAMERA, 0.1, 1000);
 
-        this.renderer = new THREE.WebGLRenderer();
+        // this.renderer = new THREE.WebGLRenderer();
 
         this.material = new THREE.MeshBasicMaterial({ color: this.data.colors[4] });
         // console.log(this.material.color.r);

@@ -10,8 +10,9 @@ export default function SceneGame() {
   const wrapperRef = useRef();
   const [wrapper, setWrapper] = useState();
   const [state, setState] = useState("loadingManifest"); //loadingManifest
-
+  let controller;
   // debugger
+
   useLoadController({
     getLibsPromise: baseThreeImports,
     getWrapperPromise: () => import(`../../controllers/quickStartGameThreeScene/Wrapper`),
@@ -23,9 +24,11 @@ export default function SceneGame() {
     wrapper.appendContainer(wrapperRef.current);
   }, [wrapper]);
 
-  useStateReducer({}, ignoreNextStates, state => setState(getNextState(states, state)), state, wrapper);
+  if (wrapper) {
+    wrapper.controller[`${state}`]?.();
+  }
 
-  console.log(wrapper)
+  useStateReducer({}, ignoreNextStates, state => setState(getNextState(states, state)), state, wrapper);
 
   return (
     <div className={"scene"}>

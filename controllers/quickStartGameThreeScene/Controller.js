@@ -3,16 +3,18 @@ import { InputController } from '../../utils/scene/containers/controllers/counte
 import { KeyboardPlugin } from '../../utils/scene/containers/controllers/counter/plugins/KeyboardPlugin';
 import { ActivWithKeyCode } from '../../utils/scene/containers/controllers/counter/plugins/ActivWithKeyCode.js';
 export default class Controller extends ThreeController {
-  constructor(data) {
-    super(data);
-    let topAktiv = new ActivWithKeyCode("top", true, [38]);
-    let leftAktiv = new ActivWithKeyCode("left", true, [37, 65]);
-    let rightAktiv = new ActivWithKeyCode("right", true, [39, 68]);
-    let downAktiv = new ActivWithKeyCode("down", true, [40]);
 
-    let inputController = new InputController();
+  loadingManifest() { }
 
-    let keyboardPlugin = new KeyboardPlugin(inputController);
+  initialization() {
+    const topAktiv = new ActivWithKeyCode("top", true, [38]);
+    const leftAktiv = new ActivWithKeyCode("left", true, [37, 65]);
+    const rightAktiv = new ActivWithKeyCode("right", true, [39, 68]);
+    const downAktiv = new ActivWithKeyCode("down", true, [40]);
+
+    const inputController = new InputController();
+
+    const keyboardPlugin = new KeyboardPlugin(inputController, this.renderer);
 
     inputController.addPlugin(keyboardPlugin);
 
@@ -22,6 +24,13 @@ export default class Controller extends ThreeController {
     inputController.bindActions(downAktiv);
 
     inputController.attach(document);
+  }
+
+  initLevel() {
+  }
+
+  playing() {
+
   }
 
 }

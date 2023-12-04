@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <div className="container">
       <PageDescription {...defaultPage}/>
-      <Scene/>
+      {/*<Scene/>*/}
       <SceneGame/>
     </div>
   );
