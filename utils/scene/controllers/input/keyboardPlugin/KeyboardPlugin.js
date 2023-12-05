@@ -6,6 +6,9 @@ export default class KeyboardPlugin extends Plugin {
   name = "keyboard";
 
   _keys = {};
+  constructor() {
+    super()
+  }
 
   checkAction(action) {
     return !!action.data.keyboard;

@@ -49,7 +49,7 @@ export class MousePlugin extends BasePlugin {
             const activeButtons = Array.from(goodActiv.keys.values())
                 .filter(x => this.isKeyPressed(x));
 
-            
+
             if (!!activeButtons.length && ACTION === 'input-controller:action-activated') {
                 return;
             }
@@ -83,5 +83,5 @@ export class MousePlugin extends BasePlugin {
 
         return pressedKeys[keyCode] === true;
     }
-    
+
 }

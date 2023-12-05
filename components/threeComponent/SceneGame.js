@@ -5,6 +5,7 @@ import useStateReducer from "../../utils/scene/react/hooks/useStateReducer";
 import { useLoadController } from "../../utils/scene/react/hooks/useLoadController";
 import { baseThreeImports } from "../../utils/scene/utils/import/import-three";
 import { getNextState } from "../../utils/scene/utils/state/state";
+import CustForm from "../login/CustForm";
 
 export default function SceneGame() {
   const wrapperRef = useRef();
@@ -13,7 +14,7 @@ export default function SceneGame() {
 
   useLoadController({
     getLibsPromise: baseThreeImports,
-    getWrapperPromise: () => import(`../../controllers/quickStartGameThreeScene/Wrapper`),
+    getWrapperPromise: () => import(`../../controllers/gameThreeScene/Wrapper`),
     beforeInit: ({ wrapper }) => setWrapper(wrapper),
   });
 
@@ -23,7 +24,9 @@ export default function SceneGame() {
   }, [wrapper]);
 
 
-  useStateReducer({}, ignoreNextStates, state => {
+  useStateReducer({
+
+  }, ignoreNextStates, state => {
     (async () => {
       await wrapper.controller[`${state}`]?.();
     })().then(()=>{setState(getNextState(states, state))});
@@ -34,6 +37,7 @@ export default function SceneGame() {
   return (
     <div className={"scene"}>
       <div className={"game__wrapper"} ref={wrapperRef} id={"div"} />
+<CustForm/>
     </div>
   );
 }

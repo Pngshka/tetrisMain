@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { CUBE_GEOM } from '../gameConstants.js'
+import { CUBE_GEOM } from '../../../examples/constants/gameConstants.js'
 import { AbstractFactory } from './AbstractFactory.js';
 
 export class CubeFactory extends AbstractFactory {

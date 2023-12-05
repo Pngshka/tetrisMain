@@ -94,4 +94,5 @@ export default class SceneController {
   onManifestLoaded() {
     this.storage.data = AssetsManager.getAssetFromLib("settings", "json");
   }
+
 }

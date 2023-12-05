@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { COL, ROW, CUBE_GEOM, CUBE_POS, CAMERA, BG_X, BG_Y, BG_Z, CAMERA_POS_Z, CUBE_BG_Z, CUBE_BG_X, CUBE_TYPE } from '../gameConstants.js'
+import { COL, ROW, CUBE_GEOM, CUBE_POS, CAMERA, BG_X, BG_Y, BG_Z, CAMERA_POS_Z, CUBE_BG_Z, CUBE_BG_X, CUBE_TYPE } from '../../../examples/constants/gameConstants.js'
 import { CubeFactory } from './CubeFactory.js';
 //import {Factory} from './CubeFactory.js'
 

@@ -4,7 +4,7 @@ import I from './I.js'
 import T from './T.js'
 import cube from './cube.js'
 import Z from './Z.js'
-import { COL, ROW, FIGURE_TYPE } from '../gameConstants.js'
+import { COL, ROW, FIGURE_TYPE } from '../../../examples/constants/gameConstants.js'
 import { FigureFactory } from './FigureFactory.js'
 //import {AbstractFactory} from "./Factory.js"
 
@@ -27,15 +27,15 @@ export default class GameControllerTetris {
     data;
     colorNow;
 
+    stopGame = false;
+
     constructor(animationControllerTetris, data) {
         this.data = data
-        console.log("DATAAAAA: " + this.data)
         this.animationControllerTetris=animationControllerTetris;
         this.initialization();
     };
 
     async initialization(){
-
         this.utilities = new Utilities();
 
         this.matrix = Array(ROW).fill().map(() => Array(COL).fill(0));
@@ -127,6 +127,7 @@ export default class GameControllerTetris {
     }
 
     mainLoop = () => {
+      if (this.stopGame) return;
         requestAnimationFrame(this.mainLoop);
 
         this.now = Date.now();
@@ -196,11 +197,15 @@ export default class GameControllerTetris {
 
     gameOver() {
         console.log('GameOver')
+        this.setStopGame();
+        // this.animationControllerTetris.appendForm();
+
         this.animationControllerTetris.remove()
         this.matrix = Array(ROW).fill().map(() => Array(COL).fill(0));
 
         this.factory.deconstruct(this.figures);
         this.figures.splice(0, this.figures.length);
+
     }
 
     chekingRotate(matrix, figure, matrixFigure){
@@ -216,5 +221,13 @@ export default class GameControllerTetris {
         }
 
         return true
+    }
+
+    setStopGame(){
+      this.stopGame=!this.stopGame;
+      if (!this.stopGame) this.mainLoop();
+      else {
+
+      }
     }
 }

@@ -7,6 +7,7 @@ import Loader from "../loader/Loader";
 import {threeManager} from "../loader/plugins/threejs/ThreeManager";
 import ThreeParser from "../loader/plugins/postprocessing/ThreeParser";
 import FPSMeter, {fpsMeter} from "../utils/fps-meter/fps-meter";
+import CustForm from "../../../components/login/CustForm";
 
 Loader.registerManager(threeManager, "threejs");
 
@@ -99,6 +100,18 @@ export default class ThreeController extends SceneController {
 
   }
 
+  initMesh(geometry, material) {
+    return new THREE.Mesh(geometry, material);
+  }
+
+  initBoxGeometry(x, y, z) {
+    return new THREE.BoxGeometry(x, y, z);
+  }
+
+  initMeshBasicMaterial(color) {
+    return new THREE.MeshBasicMaterial({ color: color });
+  }
+
   initCameras() {
     const {
       storage: {
@@ -177,6 +190,7 @@ export default class ThreeController extends SceneController {
   appendContainer(container) {
     if (this.renderer) {
       container.appendChild(this.renderer.domElement);
+      // container.appendChild(<CustForm/>)
     }
 
     super.appendContainer(container);
