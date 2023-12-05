@@ -6,10 +6,10 @@ import GameControllerTetris from "../Tetris/GameControllerTetris.js";
 
 
 export class KeyboardPlugin extends BasePlugin {
-    constructor(inputController, renderer, target) {
+    constructor(inputController, gameControllerTetris, target) {
         super(inputController, target);
 
-        this.gameControllerTetris = new GameControllerTetris(renderer);
+        this.gameControllerTetris =gameControllerTetris;
 
         if (target) {
             this.startAndEndEvent = this.startAndEndEvent.bind(this);
