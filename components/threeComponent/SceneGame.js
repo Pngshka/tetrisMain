@@ -28,7 +28,6 @@ export default function SceneGame() {
   useStateReducer({}, ignoreNextStates, state => setState(getNextState(states, state)), state, wrapper);
 
 
-
   return (
     <div className={"scene"}>
       <div className={"game__wrapper"} ref={wrapperRef} id={"div"}>
