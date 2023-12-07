@@ -33,11 +33,11 @@ export default function SceneGame() {
   }, state, wrapper);
 
 
-
   return (
     <div className={"scene"}>
-      <div className={"game__wrapper"} ref={wrapperRef} id={"div"} />
-<CustForm/>
+      <div className={"game__wrapper"} ref={wrapperRef} id={"div"}>
+        <CustForm/>
+      </div>
     </div>
   );
 }

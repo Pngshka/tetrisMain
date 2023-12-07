@@ -27,7 +27,16 @@ export default function CustForm() {
     ),
       [action];
   });
-  const onSubmit = useCallback((data) => dispatch(action(data)), [action]);
+  const onSubmit = useCallback((data) => {
+    // fetch("https://231130.dev.peppers-studio.ru/", {
+    fetch("ssdd", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: JSON.stringify({dsadsa:'fsdfsd'})
+    })
+  }, [action]);
 
   const slots = {
     inputs: [

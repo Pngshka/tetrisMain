@@ -1,7 +1,9 @@
 /* eslint-disable no-console */
 const express = require("express");
 const next = require("next");
-const {project_id: projectId} = require("./package");
+const urlencodedParser = express.urlencoded({extended: false});
+console.log(0/0);
+const { project_id: projectId } = require("./package");
 
 const devProxy = {
   "/api": {
@@ -17,32 +19,36 @@ const app = next({
   dir: ".", // base directory where everything is, could move to src later
   dev,
 });
-
 const handle = app.getRequestHandler();
-
 let server;
 app
   .prepare()
   .then(() => {
     server = express();
-
+    server.post("/ssdd", urlencodedParser, function (request, response) {
+      console.log(request.body);
+      response.send(`${request.body.userName} - ${request.body.userAge}`);
+    });
     // Set up the proxy.
-    if (dev && devProxy) {
-      const { createProxyMiddleware }  = require("http-proxy-middleware");
-      Object.keys(devProxy).forEach(function (context) {
-        server.use(createProxyMiddleware(context, devProxy[context]));
-      });
-    }
+    // if (dev && devProxy) {
+    //   const { createProxyMiddleware } = require("http-proxy-middleware");
+    //   Object.keys(devProxy).forEach(function (context) {
+    //     server.use(createProxyMiddleware(context, devProxy[context]));
+    //   });
+    // }
 
     // Default catch-all handler to allow Next.js to handle all other routes
     server.all("*", (req, res) => handle(req, res));
 
     server.listen(port, (err) => {
+
       if (err) {
         throw err;
       }
       console.log(`> Ready on port ${port} [${env}]`);
     });
+
+
   })
   .catch((err) => {
     console.log("An error occurred, unable to start the server");
