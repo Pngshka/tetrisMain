@@ -68,6 +68,8 @@ export default class State extends BaseDecorator {
 
   onStateChanged(state) {
     this._eventBus.dispatchEvent({type: "state-adapter:state-changed", data: {state}})
+    // debugger
+    // console.log(this._controller);
     this.statePromise = this._controller[`${state}Select`]?.call(this._controller) ?? Promise.resolve();
   }
 }

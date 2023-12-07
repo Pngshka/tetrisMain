@@ -4,6 +4,8 @@ const SPACE_MESSAGE = `Поле "Пароль" не может содержат�
 const MIN_LENGTH = "Минимальная длина 6 символов";
 const PASSWORD_REPEAT = "Введенные пароли не совпадают";
 const PHONE = "Номер телефона введён некорректно";
+const MESSAGE = 'Сообщение должно содержать текст "ananas" или "AnAnAs"';
+const NAME = "Имя должно содержать только кириллические символы";
 
 /**
  * @param {string|{message}} name
@@ -51,6 +53,30 @@ export function password(getValue) {
       }
 
       return true;
+    }
+  }
+}
+
+export function name() {
+  return {
+    validate(name) {
+      var namePattern = /^[а-яА-ЯёЁ]+$/;
+
+      if (!name.match(namePattern)) {
+        return NAME;
+      } else return true;
+    }
+  }
+}
+
+export function message() {
+  return {
+    validate(message) {
+      var messagePattern = /ananas|AnAnAs/;
+
+      if (!message.match(messagePattern)) {
+        return MESSAGE;
+      } else return true;
     }
   }
 }

@@ -69,7 +69,7 @@ export class KeyboardPlugin extends BasePlugin {
             else
                 goodActiv.activeNow--;
             //console.log(goodActiv.activeNow);
-            console.log(goodActiv.activeNow);
+            // console.log(goodActiv.activeNow);
         }
     }
 

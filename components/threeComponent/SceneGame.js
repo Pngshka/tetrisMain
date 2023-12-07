@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ignoreNextStates, states } from "../../utils/scene/examples/constants/statesGame";
 import useStateReducer from "../../utils/scene/react/hooks/useStateReducer";
 import { useLoadController } from "../../utils/scene/react/hooks/useLoadController";
@@ -23,21 +23,17 @@ export default function SceneGame() {
     wrapper.appendContainer(wrapperRef.current);
   }, [wrapper]);
 
+  // console.log(wrapper)
 
-  useStateReducer({
-
-  }, ignoreNextStates, state => {
-    (async () => {
-      await wrapper.controller[`${state}`]?.();
-    })().then(()=>{setState(getNextState(states, state))});
-  }, state, wrapper);
+  useStateReducer({}, ignoreNextStates, state => setState(getNextState(states, state)), state, wrapper);
 
 
 
   return (
     <div className={"scene"}>
-      <div className={"game__wrapper"} ref={wrapperRef} id={"div"} />
-<CustForm/>
+      <div className={"game__wrapper"} ref={wrapperRef} id={"div"}>
+        <CustForm/>
+      </div>
     </div>
   );
 }

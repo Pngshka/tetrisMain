@@ -1,5 +1,5 @@
 import RequestsBuilder from "../../utils/redux/RequestsBuilder";
-import {login, logout, profile, signup, update} from "../../api/user";
+import {login, logout, profile, signup, update, form} from "../../api/user";
 
 
 const builder = new RequestsBuilder({
@@ -7,6 +7,8 @@ const builder = new RequestsBuilder({
   initialState: {},
   reducers: {
     clearError(state, {payload: {field, requestName} = {}}) {
+
+      // debugger
       if (!field) return;
       requestName = builder.getRequestByName(requestName);
 
@@ -49,6 +51,12 @@ const builder = new RequestsBuilder({
     extraName: "logout",
     checkLocal: true,
     func: logout
+  })
+  .addRequest({
+    requestName: "api/form",
+    extraName: "form",
+    checkLocal: true,
+    func: form
   })
 
 

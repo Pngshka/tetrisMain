@@ -190,7 +190,7 @@ export default class ThreeController extends SceneController {
   appendContainer(container) {
     if (this.renderer) {
       container.appendChild(this.renderer.domElement);
-      // container.appendChild(<CustForm/>)
+      // container.appendChild('CustForm')
     }
 
     super.appendContainer(container);

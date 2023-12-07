@@ -6,6 +6,7 @@ import {node} from "prop-types";
 import {modalStorage} from "../../redux/reducer/modals";
 import ModalController from "../baseComponents/controllers/modalController/modalController";
 import initModalsList from "../baseComponents/containers/modalsList/modalsList";
+import CustForm from "../login/CustForm";
 
 export default function MainLayout({children}) {
   useEffect(() => {

@@ -3,6 +3,7 @@ import GameControllerTetris from "../../utils/scene/containers/controllers/Tetri
 import {CubeFactory} from "../../utils/scene/containers/controllers/Tetris/CubeFactory";
 import initializationController from "../../utils/scene/controllers/input/inputController/initializationController"
 import ReactDOM from "react-dom";
+import { createRoot } from 'react-dom/client';
 import {
   BG_X,
   BG_Y,
@@ -80,7 +81,6 @@ export default class Controller extends ThreeController {
   initializationScene() {
     window.addEventListener('resize', this.onResize)
 
-    // this.container = document.getElementById('div');
     this.renderer.setClearColor(this.data.colors[5]);
 
 
@@ -173,13 +173,4 @@ export default class Controller extends ThreeController {
     // console.log( this.renderer.domElement.style.height)
     this.renderer.render(this.scene, this.camera);
   }
-
-  appendForm() {
-    // ReactDOM.render(<CustForm/>, document)
-    // this.container.appendChild('CustForm');
-
-
-    super.appendForm(this.container);
-  }
-
 }
