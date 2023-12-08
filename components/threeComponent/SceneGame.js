@@ -23,14 +23,13 @@ export default function SceneGame() {
     wrapper.appendContainer(wrapperRef.current);
   }, [wrapper]);
 
-  // console.log(wrapper)
-
   useStateReducer({}, ignoreNextStates, state => setState(getNextState(states, state)), state, wrapper);
 
 
   return (
     <div className={"scene"}>
       <div className={"game__wrapper"} ref={wrapperRef} id={"div"}>
+        <div className={"div"}/>
         <CustForm/>
       </div>
     </div>

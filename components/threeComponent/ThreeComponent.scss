@@ -3,6 +3,78 @@ div .game__wrapper{
   height: 100vh;
 }
 
-//.login {
-//  display: none
-//}
+.login {
+  display: none;
+  position: absolute;
+}
+
+* {
+  overflow: hidden;
+  font-family: 'Golos', sans-serif;
+}
+
+div {
+  font-size: 14px;
+}
+
+
+form {
+ padding: 3vw;
+  display: grid;
+  justify-content: center;
+  text-align: center;
+
+  //width: 30vw;
+
+  background-color: #FFFF;
+
+  box-shadow: 3.21847px 8.04618px 56.3233px rgba(0, 0, 0, 0.02);
+  border-radius: 30px;
+}
+
+input {
+  border-radius: 16.0924px;
+  padding: 2vh;
+
+  margin-bottom: 20px;
+  background-color: #F5F5F5;
+  border: none;
+}
+
+button {
+  font-size: 20px;
+  display: block;
+
+  padding: 0 60px 0 60px;
+  line-height: 50px;
+
+  background: #00C900;
+  border: none;
+  color: #FFFF;
+  border-radius: 1000px;
+}
+
+button:hover{
+  background: #00B909;
+}
+
+button:disabled:hover{
+  background: #00C900;
+}
+
+div .div{
+  display: none;
+  position: absolute;
+  font-size: 14px;
+  padding: 3vw;
+  justify-content: center;
+  text-align: center;
+
+  //width: 30vw;
+
+  background-color: #FFFF;
+
+  box-shadow: 3.21847px 8.04618px 56.3233px rgba(0, 0, 0, 0.02);
+  border-radius: 30px;
+}
+
