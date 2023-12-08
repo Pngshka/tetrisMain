@@ -1,8 +1,9 @@
 let arrayResults = []
 
 function setArrayResults(dataArray, data){
-  arrayResults = [...dataArray];
-  arrayResults.push(data);
+  // if (!arrayResults.name.includes(data.name))
+    arrayResults = [...dataArray, data];
+  // else console.log("error")
 
   return arrayResults;
 }

@@ -42,14 +42,18 @@ export default function CustForm() {
                 form.reset();
                 form.style.display = 'none';
 
-                data = await response.json()
-                let str="";
-                const div = document.querySelector('.div')
-                div.style.display = 'block';
-                for (let i = 0; i < ((data.length < 10) ? data.length : 10); i++) {
-                    str += ("<br>" + `${data[i].name}` + ": " + `${data[i].score}` + "</br>")
-                }
-                div.innerHTML = str
+                fetch('getResult').then(async (response) => {
+                    let str="";
+                    const div = document.querySelector('.div')
+                    div.style.display = 'block';
+
+                    let data = await response.json()
+                    console.log(data)
+                    for (let i = 0; i < ((data.length < 10) ? data.length : 10); i++) {
+                        str += ("<br>" + `${data[i].name}` + ": " + `${data[i].score}` + "</br>")
+                    }
+                    div.innerHTML = str
+                });
             });
 
     }, [action]);

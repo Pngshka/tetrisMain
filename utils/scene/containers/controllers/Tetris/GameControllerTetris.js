@@ -45,7 +45,6 @@ export default class GameControllerTetris {
         this.animationControllerTetris = animationControllerTetris;
         this.form = document.querySelector('.login')
         this.form.score = this.score;
-        this.form.addEventListener("mousedown", this.setStopGame)
 
         this.initialization();
     };
@@ -67,8 +66,8 @@ export default class GameControllerTetris {
         document.querySelector('.div').addEventListener('click', function () {
             this.stopGame = !this.stopGame;
             this.score = 0;
-            requestAnimationFrame(this.mainLoop);
             document.querySelector('.div').style.display = "none"
+            requestAnimationFrame(this.mainLoop);
         }.bind(this))
     }
 

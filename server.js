@@ -31,13 +31,26 @@ app
         server.use(express.urlencoded({extended: false}));
         server.use(express.json());
 
+        //fs promis
+        //todo: 200 записей
+        //перезапись имени
+        //slice (один из методов билдера)
+        //впихнуть в санки
         server.post('/setResult', (req, res) => {
             fs.readFile('file.txt', 'utf8', (err, data) => {
+
                 let dataResult = results.setArrayResults( JSON.parse(data), {name: req.body.name, score: req.body.score});
 
                 fs.writeFile('file.txt', `${JSON.stringify(dataResult)}`,
                     () => {});
-                res.send(results.getList(dataResult));
+                res.send("successful");
+            });
+        })
+
+        server.get('/getResult', (req, res) => {
+            fs.readFile('file.txt', 'utf8', (err, data) => {
+                // console.log(data)
+                res.send(results.getList(JSON.parse(data)));
             });
         })
 
