@@ -1,9 +1,26 @@
 let arrayResults = []
-
+const SCORE_ROW = 10;
 function setArrayResults(dataArray, data){
-  // if (!arrayResults.name.includes(data.name))
-    arrayResults = [...dataArray, data];
-  // else console.log("error")
+  arrayResults = [...dataArray];
+
+  let indexName =arrayResults.findIndex(item => item.name === data.name)
+  if(indexName !== -1) {
+    arrayResults[indexName] = data;
+    return arrayResults;
+  }
+
+  if (arrayResults.length + 1 > SCORE_ROW){
+    let indexName2 = arrayResults.findLastIndex(item => item.score < data.score)
+    console.log(indexName2)
+    if(indexName !== -1) {
+      if (indexName2 + 1 < SCORE_ROW) arrayResults[indexName2] = data;
+      return arrayResults;
+    }
+  }
+  else{
+    arrayResults = [...arrayResults, data];
+  }
+
 
   return arrayResults;
 }

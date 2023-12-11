@@ -4,7 +4,6 @@ import {useDispatch} from "react-redux";
 import Form from "../baseComponents/gui/form/Form";
 import LabelInput from "../baseComponents/gui/form/LabelInput";
 import requests, {useRequestData} from "../../redux/reducer/requests";
-import {name, message, password} from "../../constants/form";
 
 //slots, errors, register, div
 export const ThemeContext = createContext(null);
@@ -12,13 +11,13 @@ export const ThemeContext = createContext(null);
 export default function CustForm() {
     const form = useForm();
 
-    const action = requests.thunks.form;
+    const action = requests.thunks.setResult;
+    // const action2 = requests.thunks.form2;
 
     const requestName = action?.typePrefix ?? "";
     const dispatch = useDispatch();
     const {request} = useRequestData(requestName);
     const clearError = useCallback((field) => {
-        // console.log("DISPATCH");
         dispatch(
             requests.actions.clearError({
                 field,
@@ -29,34 +28,39 @@ export default function CustForm() {
     });
 
     const onSubmit = useCallback((data) => {
-        const form = document.querySelector('.login')
-
-        fetch("setResult", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({name: data.name, score: form.score}),
-        })
-            .then(async (response) => {
-                form.reset();
-                form.style.display = 'none';
-
-                fetch('getResult').then(async (response) => {
-                    let str="";
-                    const div = document.querySelector('.div')
-                    div.style.display = 'block';
-
-                    let data = await response.json()
-                    console.log(data)
-                    for (let i = 0; i < ((data.length < 10) ? data.length : 10); i++) {
-                        str += ("<br>" + `${data[i].name}` + ": " + `${data[i].score}` + "</br>")
-                    }
-                    div.innerHTML = str
-                });
-            });
-
-    }, [action]);
+      const form = document.querySelector('.login')
+      dispatch(action({name: data.name, score: form.score}))
+    }, [action])
+    // const onSubmit = useCallback((data) => {
+    //     const form = document.querySelector('.login')
+    //
+    //     fetch("setResult", {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify({name: data.name, score: form.score}),
+    //     })
+    //         .then(async (response) => {
+  //const form = document.querySelector('.login')
+    //             form.reset();
+    //             form.style.display = 'none';
+    //
+    //             fetch('getResult').then(async (response) => {
+    //                 let str="";
+    //                 const div = document.querySelector('.div')
+    //                 div.style.display = 'block';
+    //
+    //                 let data = await response.json()
+    //                 console.log(data)
+    //                 for (let i = 0; i < ((data.length < 10) ? data.length : 10); i++) {
+    //                     str += ("<br>" + `${data[i].name}` + ": " + `${data[i].score}` + "</br>")
+    //                 }
+    //                 div.innerHTML = str
+    //             });
+    //         });
+    //
+    // }, [action]);
 
     const slots = {
         inputs: [
@@ -69,7 +73,6 @@ export default function CustForm() {
     };
 
     return (
-        <ThemeContext.Provider value="dark">
             <Form
                 form={form}
                 onSubmit={onSubmit}
@@ -85,7 +88,6 @@ export default function CustForm() {
                     Отправить
                 </button>
             </Form>
-        </ThemeContext.Provider>
     );
 }
 

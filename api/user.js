@@ -26,9 +26,9 @@ export function profile() {
   return get("/user/profile")
 }
 
-export function logout() {
-  return post("/user/logout")
-    .then(saveAuth)
+export function setResult(data) {
+  debugger
+  return post("setResult", data)
 }
 
 function saveAuth(data) {

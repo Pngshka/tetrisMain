@@ -8,26 +8,22 @@ export default class RequestsBuilder extends Builder {
   constructor({name, initialState, reducers} = {}) {
 
     initialState = {
-      ...initialState,
-      requests: {},
-      globalStatus: {
-        currentRequestId: null,
-        state: states.IDLE
+      ...initialState, requests: {}, globalStatus: {
+        currentRequestId: null, state: states.IDLE
       }
     }
 
     super({name, initialState, reducers});
 
     this._controller = {
-      middleware: this._middleware,
-      fulfilled: this._fulfilled,
-      pending: this._pending,
-      rejected: this._rejected,
+      middleware: this._middleware, fulfilled: this._fulfilled, pending: this._pending, rejected: this._rejected,
     }
     this.createSelector("requestData", ({
                                           requests: {requests, globalStatus: global},
-                                        }, name) =>
-      ({request: requests[`requests/${this.getRequestByName(name)}`], global}))
+                                        }, name) => ({
+      request: requests[`requests/${this.getRequestByName(name)}`],
+      global
+    }))
   }
 
   getRequestByName(name) {
@@ -46,15 +42,9 @@ export default class RequestsBuilder extends Builder {
    * @param checkLocal игнорирование отправки при повторной отправке
    * @returns {RequestsBuilder}
    */
-  addRequest(
-    {
-      requestName,
-      extraName = requestName,
-      func,
-      onSubmit, saveData, saveError,
-      checkGlobal, checkLocal
-    }
-  ) {
+  addRequest({
+               requestName, extraName = requestName, func, onSubmit, saveData, saveError, checkGlobal, checkLocal
+             }) {
     const {initialState, name, _controller: controller} = this;
 
     initialState.requests[`${name}/${requestName}`] = this._getRequestBaseState();
@@ -63,16 +53,17 @@ export default class RequestsBuilder extends Builder {
       thunkName: requestName,
       thunkExtraName: extraName,
       func,
-      onSubmit, saveData, saveError, controller,
+      onSubmit,
+      saveData,
+      saveError,
+      controller,
       checkData: {global: checkGlobal, local: checkLocal, sliceName: name}
     })
   }
 
   _getRequestBaseState() {
     return {
-      currentRequestId: null,
-      state: states.IDLE,
-      error: null
+      currentRequestId: null, state: states.IDLE, error: null
     }
   }
 

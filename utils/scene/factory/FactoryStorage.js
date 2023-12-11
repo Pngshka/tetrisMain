@@ -22,7 +22,6 @@ export default class FactoryStorage {
 
   onCreateItem(type, item) {
     if(!item)
-      debugger;
     item._storageType = type;
 
     if (this.createdItems.indexOf(item) === -1)

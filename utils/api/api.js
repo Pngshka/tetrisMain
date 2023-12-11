@@ -1,6 +1,7 @@
 import axios from "axios";
 import ApiError from "./ApiError";
-const prefix = "/api/";
+
+const prefix = "";
 
 function isAbsolute(str) {
   return /^(\w+:)?\/\//.test(str);
@@ -26,6 +27,7 @@ function initMethod(method) {
 }
 
 let globalHeaders = {};
+
 export function addHeaders(_headers) {
   Object.keys(_headers)
     .forEach(key => {
@@ -41,8 +43,7 @@ export const get = initMethod("get");
 export const post = initMethod("post");
 
 export function send({apiMethod, ...params}) {
-  // const button = document.getElementById('myButton');
-  // button.disabled = true;
+debugger
   return axios({
     ...params,
     headers: {
@@ -51,18 +52,26 @@ export function send({apiMethod, ...params}) {
     },
     url: getURL(apiMethod)
   })
-    // .then((response)=>{
-    // 	console.log(response)
-    // 	if (response.status < 500){
-    // 		setTimeout(() => {button.disabled = false}, 2000);
-    // 	} else {
-    // 		onFail(response);
-    // 	}
-    // })
-    .then(onSuccess, onFail)
-    // .then(()=>{
-    //   setTimeout(()=>{button.disabled = false}, 3000)
-    // })
+    .then(async (response) => {
+      if (apiMethod==="setResult") {
+        const form = document.querySelector('.login')
+        form.reset();
+        form.style.display = 'none';
+
+        fetch('getResult').then(async (response) => {
+          let str = "";
+          const div = document.querySelector('.div')
+          div.style.display = 'block';
+
+          let data = await response.json()
+          console.log(data)
+          for (let i = 0; i < ((data.length < 10) ? data.length : 10); i++) {
+            str += ("<br>" + `${data[i].name}` + ": " + `${data[i].score}` + "</br>")
+          }
+          div.innerHTML = str
+        });
+      }
+    })
 }
 
 /**
@@ -85,7 +94,7 @@ function onFail(error) {
   // console.log(error)
   if (error.response && typeof error.response.data === "object") {
     throw ApiError.fromApiResponse(error.response.data);
-  } else if(error.request) {
+  } else if (error.request) {
     throw ApiError.fromHttpError(error.request);
   } else {
     throw new ApiError({});

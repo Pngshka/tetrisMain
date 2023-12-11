@@ -16,3 +16,5 @@ export const CUBE_BG_X = -0.02;
 
 export const CUBE_TYPE = "CUBE_TYPE";
 export const FIGURE_TYPE = "FIGURE_TYPE";
+
+// exports.SCORE_ROW = 10;
