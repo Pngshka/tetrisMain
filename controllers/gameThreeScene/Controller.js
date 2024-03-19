@@ -1,9 +1,6 @@
 import ThreeController from "../../utils/scene/containers/ThreeController";
 import GameControllerTetris from "../../utils/scene/containers/controllers/Tetris/GameControllerTetris";
-import {CubeFactory} from "../../utils/scene/containers/controllers/Tetris/CubeFactory";
 import initializationController from "../../utils/scene/controllers/input/inputController/initializationController"
-import ReactDOM from "react-dom";
-import {createRoot} from 'react-dom/client';
 import {
     BG_X,
     BG_Y,
@@ -13,39 +10,31 @@ import {
     CUBE_GEOM, CUBE_POS, CUBE_POS_Z, ROW
 } from "../../utils/scene/examples/constants/gameConstants";
 import Loader from "../../utils/scene/loader/Loader";
-import {threeManager} from "../../utils/scene/loader/plugins/threejs/ThreeManager";
-import CustForm from "../../components/login/CustForm";
+import { threeManager } from "../../utils/scene/loader/plugins/threejs/ThreeManager";
+
+import Entity from "./Entity";
+import PositionComponent from "./components/PositionComponent";
+import SceneSystem from "./SceneSystem";
 
 Loader.registerManager(threeManager, "threejs");
 
 export default class Controller extends ThreeController {
-    cubes = [];
-
-    cubesF = [];
-
-    cubeB;
+    entities = []; 
+    entity;
+    systems = [];
+//---------------------------------------------------
 
     renderer;
 
     camera;
 
-    container;
-
     scene;
-
-    geometry;
-
-    material;
-
-    materialF;
-
-    materialB;
 
     dpr;
 
     data;
 
-    factory;
+    rollingGroundSphere;
 
     async loadingManifestSelect() {
         const response = await fetch('/assets/tetrisAssets.json');
@@ -53,29 +42,29 @@ export default class Controller extends ThreeController {
     }
 
     initializationSelect() {
+        this.entity = new Entity();
+        this.entity.addComponent(new PositionComponent());
 
-        this.gameControllerTetris = new GameControllerTetris(this, this.data);
-        initializationController(this.gameControllerTetris);
+        this.systems.push(new SceneSystem(this.entity));
+        // this.scene = this.initScene();
+        // this.camera = this.initCamera();
 
-        this.scene = this.initScene();
-        this.camera = this.initCamera();
 
-        this.material = this.initMeshBasicMaterial(this.data.colors[4]);
-        this.materialF = this.initMeshBasicMaterial(this.data.colors[4]);
-        this.materialB = this.initMeshBasicMaterial(this.data.colors[6]);
+        // this.dpr = window.devicePixelRatio;
 
-        this.geometry = this.initBoxGeometry(CUBE_GEOM, CUBE_GEOM, CUBE_GEOM);
-        this.geometryB = this.initBoxGeometry(BG_X, BG_Y, BG_Z);
+        // this.initializationScene();
 
-        const figure = this.initMesh(this.geometry, this.material);
-        this.cubeB = this.initMesh(this.geometryB, this.materialB);
 
-        this.factory = new CubeFactory();
-        this.dpr = window.devicePixelRatio;
 
-        this.initializationScene();
+        // this.onResize();
 
-        this.onResize();
+        // this.PositionComponentFirst = new PositionComponent;
+        // this.PositionComponentSecond = new PositionComponent;
+        // this.PositionComponentSecond.x = 2423434;
+        // console.log(this.PositionComponentFirst.x)
+        // console.log(this.PositionComponentSecond.x)
+
+        // this.runAnimation();
     }
 
     initializationScene() {
@@ -85,9 +74,19 @@ export default class Controller extends ThreeController {
 
 
         this.camera.position.z = CAMERA_POS_Z;
-        this.cubeB.position.z = CUBE_BG_Z;
-        this.cubeB.position.x = CUBE_BG_X;
 
+        var sphereGeometry = new THREE.DodecahedronGeometry(3, 2, 2);
+        //var sphereMaterial = this.initMeshBasicMaterial(this.data.colors[6]);
+        var sphereMaterial = new THREE.MeshStandardMaterial({ color: 0x447474, flatShading: true });
+        sphereMaterial.roughness = 0;
+        sphereMaterial.metalness = 0.4;
+
+        this.rollingGroundSphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+        // this.rollingGroundSphere.receiveShadow = true;
+        // this.rollingGroundSphere.castShadow = true;
+        // debugger
+        this.rollingGroundSphere.position.x = 0;
+        this.rollingGroundSphere.position.y = -4; //0.3
     }
 
     initLevelSelect() {
@@ -97,50 +96,31 @@ export default class Controller extends ThreeController {
 
     }
 
-    runAnimation(matrix, figure, positionFigureY, positionFigureX, color) {
+    runAnimation=()=>{
+        setTimeout(() => {
+            requestAnimationFrame(this.runAnimation);
+        }, 300);
         this.scene.clear();
-        //статичная фигура
-        for (let i = 0; i < ROW; i++) {
-            for (let j = 0; j < COL; j++) {
-                if (matrix[i][j]) {
-                    const cube = this.factory.construct(this.material);
-                    cube.position.x = j * CUBE_GEOM - CUBE_POS;
-                    cube.position.y = -(i * CUBE_GEOM - CUBE_POS + window.innerHeight / CUBE_POS_Z);
 
-                    this.cubes.push(cube);
-                    this.scene.add(cube);
-                }
-            }
-        }
+        var hemisphereLight = new THREE.HemisphereLight(0xfffafa, 0x000000, .9)
+        this.scene.add(hemisphereLight);
+        let sun = new THREE.DirectionalLight(0xffffff, 4.9);
+        sun.position.set(2, 6, -7);
+        sun.castShadow = true;
+        this.scene.add(sun);
+        //Set up shadow properties for the sun light
+        sun.shadow.mapSize.width = 256;
+        sun.shadow.mapSize.height = 256;
+        sun.shadow.camera.near = 0.5;
+        sun.shadow.camera.far = 50;
 
-        // debugger
-        this.factory.deconstruct(this.cubes);
-        this.cubes.splice(0, this.cubes.length);
-        for (let row = 0; row < figure.matrix.length; row++) {
-            for (let col = 0; col < figure.matrix[row].length; col++) {
-                if (figure.matrix[row][col]) {
-                    if (positionFigureY + row < 0) {
-                        break;
-                    }
+        this.rollingGroundSphere.rotation.x += 100;
+        console.log(213213)
+        this.scene.add(this.rollingGroundSphere);
 
-                    const cube = this.factory.construct(this.materialF);
-                    cube.material.color.set(`${color}`);
-
-                    cube.position.x = (positionFigureX + col) * CUBE_GEOM - CUBE_POS;
-                    cube.position.y = -((positionFigureY + row) * CUBE_GEOM - CUBE_POS + window.innerHeight / CUBE_POS_Z); //0.3
-                    // console.log(window.innerHeight)
-
-                    this.cubesF.push(cube);
-                    this.scene.add(cube);
-                }
-            }
-        }
-
-        this.factory.deconstruct(this.cubes);
-        this.cubes.splice(0, this.cubes.length);
-
-        this.scene.add(this.cubeB);
         this.renderer.render(this.scene, this.camera);
+
+        
     }
 
     remove() {
@@ -148,7 +128,7 @@ export default class Controller extends ThreeController {
         this.renderer.render(this.scene, this.camera);
     }
 
-    initCamera() { //cameraSettings = {}
+    initCamera() { 
         return new THREE.OrthographicCamera(window.innerWidth / -CAMERA, window.innerWidth / CAMERA, window.innerHeight / CAMERA, window.innerHeight / -CAMERA, 0.1, 1000);
     }
 
@@ -159,10 +139,10 @@ export default class Controller extends ThreeController {
         this.dpr = window.devicePixelRatio;
 
 
-        const {renderer: {domElement}} = this;
+        const { renderer: { domElement } } = this;
         if (!domElement.parentNode) return;
 
-        const {offsetWidth, offsetHeight} = domElement.parentNode;
+        const { offsetWidth, offsetHeight } = domElement.parentNode;
         this.camera.left = offsetWidth / -CAMERA;
         this.camera.right = offsetWidth / CAMERA;
         this.camera.top = offsetHeight / CAMERA;
@@ -172,7 +152,6 @@ export default class Controller extends ThreeController {
         this.renderer.setSize(offsetWidth * this.dpr, offsetHeight * this.dpr);
         this.renderer.domElement.style.width = offsetWidth + 'px';
         this.renderer.domElement.style.height = offsetHeight + 'px';
-        // console.log( this.renderer.domElement.style.height)
         this.renderer.render(this.scene, this.camera);
     }
 }

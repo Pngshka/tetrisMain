@@ -27,7 +27,7 @@ export function profile() {
 }
 
 export function setResult(data) {
-  debugger
+  // debugger
   return post("setResult", data)
 }
 

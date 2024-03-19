@@ -145,7 +145,6 @@ export default class GameControllerTetris {
     }
 
     mainLoop = () => {
-        if (this.stopGame) return;
         requestAnimationFrame(this.mainLoop);
 
         this.now = Date.now();
@@ -155,38 +154,13 @@ export default class GameControllerTetris {
 
             this.then = this.now - (this.elapsed % this.fpsInterval);
 
-            this.figure.positionY++;
-            if (!this.cheking(this.figure.matrix, this.figure.positionY, this.figure.positionX)) {
-                this.figure.positionY--;
-                this.drawFigure();
-            }
-
-            this.animationControllerTetris.runAnimation(this.matrix, this.figure, this.figure.positionY, this.figure.positionX, this.colorNow);
+            this.animationControllerTetris.runAnimation();
         }
 
     }
 
     getNextFigure() {
-        const {randValue} = this.utilities.rand();
-        const axis = [T, I, cube, Z][randValue];
-        this.colorNow = `${this.data.colors[randValue]}`;
-
-        this.figure = this.factory.construct(axis);
-        this.figures.push(this.figure);
-
-        this.figure.positionX = 4;
-        this.figure.positionY = 0;
-
-        for (let row = 0; row < this.figure.matrix.length; row++) {
-            for (let col = 0; col < this.figure.matrix[row].length; col++) {
-                if (this.figure.matrix[row][col] && this.matrix[this.figure.positionY + row][this.figure.positionX + col]) {
-                    this.gameOver();
-                }
-            }
-        }
-
-        this.factory.deconstruct(this.figures);
-        this.figures.splice(0, this.figures.length);
+        
     }
 
     drawFigure() {

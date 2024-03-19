@@ -43,7 +43,7 @@ export const get = initMethod("get");
 export const post = initMethod("post");
 
 export function send({apiMethod, ...params}) {
-debugger
+// debugger
   return axios({
     ...params,
     headers: {
